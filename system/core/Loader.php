@@ -1408,4 +1408,8 @@ class CI_Loader {
 		$CI =& get_instance();
 		return $CI->$component;
 	}
+	
+	protected function _ci_object_to_array($object) {
+    return is_object($object) ? get_object_vars($object) : $object;
+}
 }

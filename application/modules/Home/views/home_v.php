@@ -439,7 +439,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 });
             </script>
             <div class="login">
-                <a href="login.html">Login</a>
+                <a href="<?php echo base_url(); ?>Login">Login</a>
             </div>
         </div>
     </div>

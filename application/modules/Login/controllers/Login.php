@@ -43,55 +43,34 @@ class Login extends MY_Controller{
 
 
             if (isset($userid)){
-                $password = sha1($this->input->post('password'));
+                $password = $this->input->post('password');
                 $role = $this->input->post('role');
                 $userdetails = $this->M_Login->confirm_user_password($userid, $password, $role);
                 if (count($userdetails) == 1){
 
                     foreach ($userdetails as $key => $value) {
                         // Redirect to residence page
+                        $this->session->set_userdata(array(
+                            'user_id' => $value->LOGIN_ID,
+                            'user_role' => $value->ASSIGNED_ROLE,
+                            'username' => $value->USERNAME,
+                            'loggedin' => 1
+                        ));
                         if ($value->ASSIGNED_ROLE == 1) {
-                            $this->session->set_userdata(array(
-                                'user_id' => $value->LOGIN_ID,
-                                'user_role' => $value->ASSIGNED_ROLE,
-                                'username' => $value->FIRSTNAME . " " . $value->SURNAME,
-                                'loggedin' => 1
-                            ));
+
 
                             redirect(base_url() . 'Chapel/show_semesters');
                         } // Redirect to residence page
                         elseif ($value->ASSIGNED_ROLE == 2) {
-                            if($value->ASSIGNED_SUBROLE == 'PG-M')
-                                $subrole = 'PG-MG';
-                            else
-                                $subrole = $value->ASSIGNED_SUBROLE;
 
-                            $this->session->set_userdata(array(
-                                'user_id' => $value->LOGIN_ID,
-                                'user_role' => $value->ASSIGNED_ROLE,
-                                'username' => $value->FIRSTNAME . " " . $value->SURNAME,
-                                'loggedin' => 1,
-                                'subrole' => $subrole
-                            ));
                             redirect(base_url() . 'Residence/show_semesters');
 
                         } elseif ($value->ASSIGNED_ROLE == 3) {
-                            $this->session->set_userdata(array(
-                                'user_id' => $value->LOGIN_ID,
-                                'user_role' => $value->ASSIGNED_ROLE,
-                                'username' => $value->FIRSTNAME . " " . $value->SURNAME,
-                                'loggedin' => 1
-                            ));
-                            $data['passmark_chapel'] = "{$value->ATTRI1}";
+
                             redirect(base_url() . 'Worship/show_semesters');
                         } // Redirect to administrator page and populate seession
                         elseif ($value->ASSIGNED_ROLE == 4) {
-                            $this->session->set_userdata(array(
-                                'user_id' => $value->LOGIN_ID,
-                                'user_role' => $value->ASSIGNED_ROLE,
-                                'username' => $value->FIRSTNAME . " " . $value->SURNAME,
-                                'loggedin' => 1
-                            ));
+
                             redirect(base_url() . 'Admin/users');
                         }
                     }

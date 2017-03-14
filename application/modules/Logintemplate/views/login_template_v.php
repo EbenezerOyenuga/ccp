@@ -1,68 +1,106 @@
-<!doctype html>
-<html lang="en" class="no-js">
+<!DOCTYPE html>
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Sign In | Bootstrap Based Admin Template - Material Design</title>
+    <!-- Favicon-->
+    <link rel="icon" href="<?php echo base_url(); ?>assets/favicon.ico" type="image/x-icon">
 
-    <title>Campus Corporate Pickup | Admin</title>
-    <!-- Sandstone Bootstrap CSS -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
-    <!-- Admin Stye -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <!-- Bootstrap Core Css -->
+    <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
 
+    <!-- Waves Effect Css -->
+    <link href="<?php echo base_url(); ?>assets/plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="<?php echo base_url(); ?>assets/plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet">
 </head>
 
-<body>
-
-<div class="login-page bk-img" style="background-image: url(img/login-bg.jpg);">
-    <div class="form-content">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <h1 class="text-center text-bold text-light mt-4x">Sign in</h1>
-                    <div class="well row pt-2x pb-3x bk-light">
-                        <?php echo validation_errors('<p style="color: red" />'); ?>
-                        <?php if (isset($_SESSION['message']))echo $_SESSION['message'];?>
-                        <div class="col-md-8 col-md-offset-2">
-                            <form action="<?php echo base_url(); ?>Login/sign_in" class="mt" method="post">
-
-                                <label for="" class="text-uppercase text-sm">Your Username or Email</label>
-                                <input type="text" placeholder="Username" class="form-control mb" name="email">
-
-                                <label for="" class="text-uppercase text-sm">Password</label>
-                                <input type="password" placeholder="Password" class="form-control mb" name="password">
-
-
-                                    <label for="" class="text-uppercase text-sm">Role:</label>
-                                        <select class="form-control mb" name = "role">
-                                            <option>Select Role:</option>
-                                            <?php echo $role; ?>
-
-                                        </select>
-
-                                <button class="btn btn-primary btn-block" type="submit">LOGIN</button>
-
-                            </form>
-                        </div>
-                    </div>
-                    <div class="text-center text-light">
-                        <a href="#" class="text-light">Forgot password?</a>
+<body class="login-page">
+<div class="login-box">
+    <div class="logo">
+        <a href="javascript:void(0);">Campus Corporate Pickup</a>
+        <small>connecting you to your destination...</small>
+    </div>
+    <div class="card">
+        <div class="body">
+            <form id="sign_in" method="POST" action="<?php echo base_url(); ?>Login/sign_in" >
+                <div class="msg">Sign in to start your session</div>
+                <?php echo validation_errors('<p style="color: red" />'); ?>
+                <?php if (isset($_SESSION['message']))echo $_SESSION['message'];?>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="text" class="form-control" name="email" placeholder="Username" required autofocus>
                     </div>
                 </div>
-            </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="password" class="form-control" name="password" placeholder="Password" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                            <i class="material-icons">create</i>
+                        </span>
+                    <div class="form-line">
+                        <select class="form-control show-tick" name="role">
+                            <option>Select Role:</option>
+                            <?php echo $role; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8 p-t-5">
+                        <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">
+                        <label for="rememberme">Remember Me</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <button class="btn btn-block bg-pink waves-effect" type="submit">SIGN IN</button>
+                    </div>
+                </div>
+                <div class="row m-t-15 m-b--20">
+                    <div class="col-xs-6">
+                        <a href="sign-up.html">Register Now!</a>
+                    </div>
+                    <div class="col-xs-6 align-right">
+                        <a href="forgot-password.html">Forgot Password?</a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
+<!-- Jquery Core Js -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core Js -->
+<script src="../../plugins/bootstrap/js/bootstrap.js"></script>
+
+<!-- Waves Effect Plugin Js -->
+<script src="../../plugins/node-waves/waves.js"></script>
+
+<!-- Validation Plugin Js -->
+<script src="../../plugins/jquery-validation/jquery.validate.js"></script>
+
+<!-- Custom Js -->
+<script src="../../js/admin.js"></script>
+<script src="../../js/pages/examples/sign-in.js"></script>
 </body>
 
 </html>

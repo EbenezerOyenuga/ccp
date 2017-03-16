@@ -6,18 +6,19 @@ class Admin extends MY_Controller{
     {
         parent::__construct();
         $this->load->module([
-            'LoadStudents', 'Users', 'Pass', 'Weights', 'Requirements', 'ApproveScores', 'ForwardedScores', 'ApproveResubmissions', 'Admintemplate'
+            'Institutions', 'Users', 'Pass', 'Weights', 'Requirements', 'ApproveScores', 'ForwardedScores', 'ApproveResubmissions', 'Admintemplate'
         ]);
+        $this->load->model(['M_Login']);
     }
 
     function index(){
         $data['page_title'] = 'Dashboard';
-        $data['content_view'] = 'Users/users_display_v';
+        $data['content_view'] = 'Admin/dashboard_v';
         $this->admintemplate->call_admin_template($data);
     }
 
-    function load_semesters(){
-        $this->loadstudents->display_semesters();
+    function institutions(){
+        $this->institutions->display_institutions();
     }
 
     function load_programs($semester_id){

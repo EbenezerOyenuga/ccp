@@ -28,7 +28,7 @@
 <body class="login-page">
 <div class="login-box">
     <div class="logo">
-        <a href="javascript:void(0);">Campus Corporate Pickup</a>
+        <a href="javascript:void(0);"><img src="./assets/images/CCP_black1.jpg"></a>
         <small>connecting you to your destination...</small>
     </div>
     <div class="card">
@@ -42,7 +42,7 @@
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="email" placeholder="Username" required autofocus>
+                        <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">

@@ -22,7 +22,7 @@ class Login extends MY_Controller{
 
         //rules for registration
 
-        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('role', 'Role', 'required');
         // if validation fails
         if ($this->form_validation->run() == FALSE){
@@ -36,7 +36,7 @@ class Login extends MY_Controller{
 
         if ($this->input->post()){
 
-            $user_id = $this->M_Login->get_userid($this->input->post('email'));
+            $user_id = $this->M_Login->get_userid($this->input->post('username'));
             foreach ($user_id as $key => $value) {
                 $userid = ($value->login_id);
             }
@@ -51,21 +51,21 @@ class Login extends MY_Controller{
                     foreach ($userdetails as $key => $value) {
                         // Redirect to residence page
                         $this->session->set_userdata(array(
-                            'user_id' => $value->LOGIN_ID,
-                            'user_role' => $value->ASSIGNED_ROLE,
-                            'username' => $value->USERNAME,
+                            'user_id' => $value->login_id,
+                            'user_role' => $value->assigned_role,
+                            'username' => $value->username,
                             'loggedin' => 1
                         ));
-                        if ($value->ASSIGNED_ROLE == 1) {
+                        if ($value->assigned_role == 1) {
 
 
-                            redirect(base_url() . 'Chapel/show_semesters');
+                            redirect(base_url() . 'Admin');
                         } // Redirect to residence page
-                        elseif ($value->ASSIGNED_ROLE == 2) {
+                        elseif ($value->assigned_role == 2) {
 
                             redirect(base_url() . 'Residence/show_semesters');
 
-                        } elseif ($value->ASSIGNED_ROLE == 3) {
+                        } elseif ($value->assigned_role == 3) {
 
                             redirect(base_url() . 'Worship/show_semesters');
                         } // Redirect to administrator page and populate seession

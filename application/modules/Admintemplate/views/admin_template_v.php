@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Blank Page | Bootstrap Based Admin Template - Material Design</title>
+    <title>Corporate Campus Pickup | <?php echo $page_title; ?></title>
     <!-- Favicon-->
     <link rel="icon" href="<?php echo base_url(); ?>assets/favicon.ico" type="image/x-icon">
 
@@ -37,7 +37,7 @@
     <link href="<?php echo base_url(); ?>assets/css/themes/all-themes.css" rel="stylesheet" />
 </head>
 
-<body class="theme-blue">
+<body class="theme-black">
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
@@ -75,7 +75,7 @@
         <div class="navbar-header">
             <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="<?php echo base_url(); ?>">BU Publication Portal</a>
+            <a class="navbar-brand" href="<?php echo base_url(); ?>">Corporate Campus Pickup</a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -308,9 +308,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo base_url(); ?>Admin/schools_departments">
+                    <a href="<?php echo base_url(); ?>Admin/institutions">
                         <i class="material-icons">schools</i>
-                        <span>Schools & Departments</span>
+                        <span>Institutions</span>
                     </a>
                 </li>
 

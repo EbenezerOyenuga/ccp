@@ -21,6 +21,9 @@
     <!-- Animation Css -->
     <link href="<?php echo base_url(); ?>assets/plugins/animate-css/animate.css" rel="stylesheet" />
 
+    <!-- Bootstrap Select Css -->
+    <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
     <!-- JQuery DataTable Css -->
     <link href="<?php echo base_url(); ?>assets/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
 

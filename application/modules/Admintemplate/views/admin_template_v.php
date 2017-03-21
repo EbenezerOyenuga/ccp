@@ -316,13 +316,13 @@
                         <span>Institutions</span>
                     </a>
                 </li>
-
                 <li>
-                    <a href="javascript:void(0);">
-                        <i class="material-icons col-light-blue">donut_large</i>
-                        <span>Information</span>
+                    <a href="<?php echo base_url(); ?>Admin/states">
+                        <i class="material-icons">schools</i>
+                        <span>States</span>
                     </a>
                 </li>
+
             </ul>
         </div>
         <!-- #Menu -->

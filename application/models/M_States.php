@@ -46,6 +46,15 @@ class M_States extends CI_Model
         return $this->db->update('tbl_states');
     }
 
+    function get_state($id){
+        $this->db->select('*');
+        $this->db->from('tbl_states');
+        $this->db->where('state_id', $id);
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
     function update_state($state_id, $state_name){
         $this->db->set('state', $state_name);
         $this->db->where('state_id', $state_id);

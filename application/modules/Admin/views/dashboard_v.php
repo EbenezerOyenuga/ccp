@@ -5,8 +5,8 @@
                 <i class="material-icons col-indigo">school</i>
             </div>
             <div class="content">
-                <div class="text">SCHOOLS</div>
-                <div class="number count-to" data-from="0" data-to="<?php echo $num_schools ?>" data-speed="1000" data-fresh-interval="5"><?php echo $num_schools ?></div>
+                <div class="text">Institutions</div>
+                <div class="number count-to" data-from="0" data-to="<?php echo $num_institutions ?>" data-speed="1000" data-fresh-interval="5"><?php echo $num_institutions ?></div>
             </div>
         </div>
     </div>

@@ -47,11 +47,11 @@ class M_Institutions extends CI_Model
         return $query->result();
     }
 
-    function get_active_schools(){
+    function get_active_institutions(){
         $this->db->select('*');
-        $this->db->from('schools');
+        $this->db->from('tbl_institutions');
         $this->db->where('status', 1);
-        $this->db->order_by('school');
+        $this->db->order_by('institution');
         $query = $this->db->get();
 
         return $query->result();

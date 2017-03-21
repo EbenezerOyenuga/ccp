@@ -8,11 +8,12 @@ class Admin extends MY_Controller{
         $this->load->module([
             'Institutions', 'Users', 'Pass', 'Weights', 'Requirements', 'ApproveScores', 'ForwardedScores', 'ApproveResubmissions', 'Admintemplate'
         ]);
-        $this->load->model(['M_Login']);
+        $this->load->model(['M_Login', 'M_Institutions']);
     }
 
     function index(){
         $data['page_title'] = 'Dashboard';
+        $data['num_institutions'] = count($this->M_Institutions->get_active_institutions());
         $data['content_view'] = 'Admin/dashboard_v';
         $this->admintemplate->call_admin_template($data);
     }
@@ -24,6 +25,15 @@ class Admin extends MY_Controller{
     function edit_institution($id){
         $this->institutions->edit_institution($id);
     }
+
+    function states(){
+        $this->states->display_states();
+    }
+
+    function edit_state($id){
+        $this->states->edit_state($id);
+    }
+
     function load_programs($semester_id){
         $this->loadstudents->display_programs($semester_id);
     }

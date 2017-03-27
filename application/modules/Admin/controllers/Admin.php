@@ -6,7 +6,7 @@ class Admin extends MY_Controller{
     {
         parent::__construct();
         $this->load->module([
-            'Institutions', 'Users', 'Pass', 'Weights', 'Requirements', 'ApproveScores', 'ForwardedScores', 'ApproveResubmissions', 'Admintemplate'
+            'Institutions', 'Users', 'Points', 'Weights', 'Requirements', 'ApproveScores', 'ForwardedScores', 'ApproveResubmissions', 'Admintemplate'
         ]);
         $this->load->model(['M_Login', 'M_Institutions']);
     }
@@ -34,8 +34,8 @@ class Admin extends MY_Controller{
         $this->states->edit_state($id);
     }
 
-    function load_programs($semester_id){
-        $this->loadstudents->display_programs($semester_id);
+    function points(){
+        $this->points->display_points();
     }
 
     function users(){

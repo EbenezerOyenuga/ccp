@@ -47,6 +47,29 @@ class States extends MY_Controller
         }
     }
 
+    function create_state_select()
+    {
+
+        $states = $this->M_States->get_active_states();
+        echo "<label for='state'>States</label>";
+        echo "<div class='form-group'>";
+        echo "<div class='form-line'>";
+        echo "<select class='form-control show-tick' id='statedd' name='statedd' onchange='load_state_points()'>";
+        echo "<option value=''>-- Please Select States --</option>";
+        if (count($states)) {
+            foreach ($states as $key => $value) {
+
+                echo "<option value = '{$value->STATE_ID}'>{$value->STATE}</option>";
+
+            }
+
+        }
+        echo "</select>";
+        echo "</div>";
+        echo "</div>";
+
+    }
+
     function display_states()
     {
         $data = $this->get_data_from_post();
@@ -110,7 +133,7 @@ class States extends MY_Controller
         $this->admintemplate->call_admin_template($data);
     }
 
-    function post_institution($add_update){
+    function post_state($add_update){
         // load form validation library
         $this->load->library('form_validation');
 
@@ -120,7 +143,7 @@ class States extends MY_Controller
             $this->form_validation->set_rules('state', 'State Name', 'trim|required|is_unique[tbl_states.state]');
 
         else
-            $this->form_validation->set_rules('email', 'Email Address', 'trim|required');
+            $this->form_validation->set_rules('state', 'State Name', 'trim|required|is_unique[tbl_states.state]');
 
         // if validation fails
         if ($this->form_validation->run() == FALSE){
@@ -139,6 +162,7 @@ class States extends MY_Controller
 
             else{
                 $this->M_States->update_state();
+                $this->session->set_flashdata('success', 'State updated successfully.');
             }
             //redirects to the users page to view the added user
             redirect(base_url().'Admin/states');

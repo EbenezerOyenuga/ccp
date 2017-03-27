@@ -318,8 +318,14 @@
                 </li>
                 <li>
                     <a href="<?php echo base_url(); ?>Admin/states">
-                        <i class="material-icons">schools</i>
+                        <i class="material-icons">map</i>
                         <span>States</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url(); ?>Admin/points">
+                        <i class="material-icons">places</i>
+                        <span>Points</span>
                     </a>
                 </li>
 

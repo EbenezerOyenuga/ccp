@@ -70,13 +70,13 @@
                         </table>
                     </div>
                     <div role="tabpanel" <?php if ($add_update == 2){ ?>class="tab-pane fade in active"  <?php } else { ?> class="tab-pane fade" <?php } ?> id="new">
-                        <form method="POST" class="form-horizontal" action = "<?php echo base_url(); ?>Institutions/post_institution/<?php echo $add_update; ?>">
+                        <form method="POST" class="form-horizontal" action = "<?php echo base_url(); ?>States/post_state/<?php echo $add_update; ?>">
                             <div class="row clearfix">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <label for="motto">Institution Name</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="hidden" id="institution_id" name="state_id" value="<?php echo $state_id; ?>">
+                                            <input type="hidden" id="state_id" name="state_id" value="<?php echo $state_id; ?>">
                                             <input type="text" id="state" name="state" class="form-control" placeholder="Enter State Name" value="<?php echo $state; ?>">
 
                                         </div>

@@ -1,22 +1,30 @@
 <?php
 
-class Institutions extends MY_Controller{
+class Points extends MY_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->module(['Logintemplate', "States"]);
+        $this->load->module(['Logintemplate', "States", "Institutions"]);
         $this->load->model("M_Institutions");
     }
 
-    function display_institutions()
+    function load_point_type()
+    {
+        if (isset($_GET['type'])) {
+            if ($_GET['type'] == 1)
+                $this->institutions->create_institutions_select();
+
+            else
+                $this->states->create_state_select();
+        }
+    }
+    function display_points()
     {
         $data = $this->get_data_from_post();
-        $data['button_title'] = 'Add Institution';
-        $data['page_title'] = 'Institutions';
-        $data['institutions_table'] = $this->create_institutions_table();
-        $data['states'] = $this->states->create_states_select();
+        $data['button_title'] = 'Add Points';
+        $data['page_title'] = 'Points';
         $data['add_update'] = 1;
-        $data['content_view'] = 'Institutions/institutions_v';
+        $data['content_view'] = 'Points/points_v';
         $this->admintemplate->call_admin_template($data);
     }
 
@@ -131,29 +139,5 @@ class Institutions extends MY_Controller{
             //redirects to the users page to view the added user
             redirect(base_url().'Admin/institutions');
         }
-    }
-
-    function create_institutions_select()
-    {
-
-            $institutions = $this->M_Institutions->get_active_institutions();
-            echo "<label for='state'>Institutions</label>";
-            echo "<div class='form-group'>";
-            echo "<div class='form-line'>";
-            echo "<select class='form-control show-tick' id='institutiondd' name='institutiondd' onchange='load_institution_points()'>";
-            echo "<option value=''>-- Please Select Institutions --</option>";
-            if (count($institutions)) {
-                foreach ($institutions as $key => $value) {
-
-                    echo "<option value = '{$value->INSTITUTION_ID}'>{$value->INSTITUTION}</option>";
-
-                }
-
-
-            }
-            echo "</select>";
-            echo "</div>";
-            echo "</div>";
-
     }
 }

@@ -13,6 +13,18 @@ class M_States extends CI_Model
         parent::__construct();
     }
 
+    function add_state(){
+
+        $posted_data = array(
+            'STATE' => $this->input->post('state', TRUE),
+            'STATE_STATUS' => 1
+        );
+        $this->db->insert('tbl_states', $posted_data);
+
+        return $this->db->insert_id();
+    }
+
+
     function get_school($state_id){
         $this->db->select('*');
         $this->db->from('tbl_states');
@@ -55,9 +67,9 @@ class M_States extends CI_Model
         return $query->result();
     }
 
-    function update_state($state_id, $state_name){
-        $this->db->set('state', $state_name);
-        $this->db->where('state_id', $state_id);
+    function update_state(){
+        $this->db->set('state', $this->input->post('state', TRUE));
+        $this->db->where('state_id', $this->input->post('state_id', TRUE));
 
 
         return $this->db->update('tbl_states');

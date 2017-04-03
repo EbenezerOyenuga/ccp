@@ -39,6 +39,12 @@ class Users extends MY_Controller
 
     }
 
+    function register($data = NULL){
+
+        $this->load->view('signup_v', $data);
+
+    }
+
     function change_password(){
         // load form validation library
         $this->load->library('form_validation');

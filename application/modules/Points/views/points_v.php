@@ -51,12 +51,47 @@
 
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="insti_state">
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6" id="points_table">
+                            <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <thead>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Points</th>
+                                    <th>Source</th>
+                                    <th>Source Type</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Points</th>
+                                    <th>Source</th>
+                                    <th>Source Type</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                <?php
+                                if ($points_table != "" )
+                                {
+                                    echo $points_table;
+                                }
+                                else{
+                                    ?>
+                                    <tr>
+                                        <td colspan="6"><center>No points to display</center></td>
+                                    </tr>
+                                <?php } ?>
+                                </tbody>
+                            </table>
                         </div>
                         </div>
                     </div>
                     <div role="tabpanel" <?php if ($add_update == 2){ ?>class="tab-pane fade in active"  <?php } else { ?> class="tab-pane fade" <?php } ?> id="new">
-                        <form method="POST" class="form-horizontal" action = "<?php echo base_url(); ?>Institutions/post_institution/<?php echo $add_update; ?>">
+                        <form method="POST" class="form-horizontal" action = "<?php echo base_url(); ?>Points/post_point/<?php echo $add_update; ?>">
                             <div class="row clearfix">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                     <label for="state">Point Types</label>
@@ -72,7 +107,7 @@
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" id="insti_states">
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" id="point">
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-sm-offset-10">
@@ -97,9 +132,27 @@
 <script type="text/javascript">
     function load_pointtype() {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", "<?php echo base_url(); ?>Points/load_point_type?type="+document.getElementById("pointdd").value, false);
+        xmlhttp.open("GET", "<?php echo base_url(); ?>Points/load_point_type_table?type="+document.getElementById("pointdd").value, false);
         xmlhttp.send(null);
         document.getElementById("insti_state").innerHTML=xmlhttp.responseText;
+        var xmlhttp_table = new XMLHttpRequest();
+        xmlhttp_table.open("GET", "<?php echo base_url(); ?>Points/load_point_source_type_table?type="+document.getElementById("pointdd").value, false);
+        xmlhttp_table.send(null);
+        document.getElementById("points_table").innerHTML=xmlhttp_table.responseText;
+    }
+
+    function load_insti_table() {
+        var xmlhttp_table = new XMLHttpRequest();
+        xmlhttp_table.open("GET", "<?php echo base_url(); ?>Points/load_insti_table?insti="+document.getElementById("insti_state_dd").value, false);
+        xmlhttp_table.send(null);
+        document.getElementById("points_table").innerHTML=xmlhttp_table.responseText;
+    }
+
+    function load_state_table() {
+        var xmlhttp_table = new XMLHttpRequest();
+        xmlhttp_table.open("GET", "<?php echo base_url(); ?>Points/load_state_table?state="+document.getElementById("insti_state_dd").value, false);
+        xmlhttp_table.send(null);
+        document.getElementById("points_table").innerHTML=xmlhttp_table.responseText;
     }
 
     function load_pointtypes() {
@@ -115,7 +168,7 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET", "<?php echo base_url(); ?>Points/load_text_box?type="+document.getElementById("pointdds").value, false);
         xmlhttp.send(null);
-        document.getElementById("users").innerHTML=xmlhttp.responseText;
+        document.getElementById("point").innerHTML=xmlhttp.responseText;
 
     }
 </script>

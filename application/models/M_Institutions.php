@@ -19,7 +19,7 @@ class M_Institutions extends CI_Model
             'INSTITUTION' => $this->input->post('institution', TRUE),
             'ADDRESS' => $this->input->post('address', TRUE),
             'CITY' => $this->input->post('city', TRUE),
-            'STATE' => $this->input->post('statedd', TRUE),
+            'STATE_ID' => $this->input->post('statedd', TRUE),
             'NAME' => $this->input->post('name', TRUE),
             'PHONE' => $this->input->post('phone', TRUE),
             'EMAIL' => $this->input->post('email', TRUE),

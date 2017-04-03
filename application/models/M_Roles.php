@@ -41,4 +41,12 @@ class M_Roles extends CI_Model
         return $this->db->update('tbl_assigned_roles');
 
     }
+
+    function update_ratio($role_id, $sharing_ratio){
+        $this->db->set('SHARING_RATIO', $sharing_ratio);
+        $this->db->where('ROLE_ID', $role_id);
+
+        return $this->db->update('tbl_roles');
+
+    }
 }

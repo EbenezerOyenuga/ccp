@@ -140,7 +140,7 @@ class Institutions extends MY_Controller{
             echo "<label for='state'>Institutions</label>";
             echo "<div class='form-group'>";
             echo "<div class='form-line'>";
-            echo "<select class='form-control show-tick' id='institutiondd' name='institutiondd' onchange='load_institution_points()'>";
+            echo "<select class='form-control show-tick' id='insti_state_dd' name='insti_state_dd' onchange='load_textbox()'>";
             echo "<option value=''>-- Please Select Institutions --</option>";
             if (count($institutions)) {
                 foreach ($institutions as $key => $value) {
@@ -154,6 +154,70 @@ class Institutions extends MY_Controller{
             echo "</select>";
             echo "</div>";
             echo "</div>";
+
+    }
+
+    function create_institutions_select_table()
+    {
+
+        $institutions = $this->M_Institutions->get_active_institutions();
+        echo "<label for='state'>Institutions</label>";
+        echo "<div class='form-group'>";
+        echo "<div class='form-line'>";
+        echo "<select class='form-control show-tick' id='insti_state_dd' name='insti_state_dd' onchange='load_insti_table()'>";
+        echo "<option value=''>-- Please Select Institutions --</option>";
+        if (count($institutions)) {
+            foreach ($institutions as $key => $value) {
+
+                echo "<option value = '{$value->INSTITUTION_ID}'>{$value->INSTITUTION}</option>";
+
+            }
+
+
+        }
+        echo "</select>";
+        echo "</div>";
+        echo "</div>";
+
+    }
+
+    function create_institutions_selected($insti_id)
+    {
+
+        $institutions = $this->M_Institutions->get_active_institutions();
+        $options = "";
+
+        if (count($institutions)) {
+            foreach ($institutions as $key => $value) {
+                if ($insti_id == $value->INSTITUTION_ID) {
+                    $selected = "selected=selected ";
+                } else {
+                    $selected = "";
+                }
+                $options .= "<option value = '{$value->INSTITUTION_ID}' $selected>{$value->INSTITUTION}</option>";
+
+            }
+
+            return $options;
+        }
+
+    }
+
+    function create_institution_select()
+    {
+
+        $institutions = $this->M_Institutions->get_active_institutions();
+        $options = "";
+
+        if (count($institutions)) {
+            foreach ($institutions as $key => $value) {
+
+                $options .= "<option value = '{$value->INSTITUTION_ID}'>{$value->INSTITUTION}</option>";
+
+            }
+
+            return $options;
+        }
 
     }
 }

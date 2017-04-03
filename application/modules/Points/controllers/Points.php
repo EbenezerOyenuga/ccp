@@ -5,7 +5,7 @@ class Points extends MY_Controller{
     {
         parent::__construct();
         $this->load->module(['Logintemplate', "States", "Institutions"]);
-        $this->load->model("M_Institutions");
+        $this->load->model("M_Points");
     }
 
     function load_point_type()
@@ -18,14 +18,254 @@ class Points extends MY_Controller{
                 $this->states->create_state_select();
         }
     }
+
+    function create_state_point_selected($state_id, $state_point_id)
+    {
+        $state_points = $this->M_Points->get_active_state_points($state_id);
+        $options = "";
+
+        if (count($state_points)) {
+            foreach ($state_points as $key => $value) {
+                if ($state_point_id == $value->LOCATION_ID) {
+                    $selected = "selected=selected ";
+                } else {
+                    $selected = "";
+                }
+                $options .= "<option value = '{$value->LOCATION_ID}' $selected>{$value->LOCATION}</option>";
+
+            }
+
+            return $options;
+        }
+
+    }
+
+    function load_state_points_select()
+    {
+        if (isset($_GET['state'])) {
+            $states = $this->M_Points->get_active_state_points($_GET['state']);
+            echo "<label for='state'>Points</label>";
+            echo "<div class='form-group'>";
+            echo "<div class='form-line'>";
+            echo "<select class='form-control show-tick' id='pointdd' name='pointdd'>";
+            echo "<option value=''>-- Please Select Point --</option>";
+            if (count($states)) {
+                foreach ($states as $key => $value) {
+
+                    echo "<option value = '{$value->LOCATION_ID}'>{$value->LOCATION}</option>";
+
+                }
+
+
+            }
+            echo "</select>";
+            echo "</div>";
+            echo "</div>";
+        }
+
+    }
+
+    function load_point_type_table()
+    {
+        if (isset($_GET['type'])) {
+            if ($_GET['type'] == 1)
+                $this->institutions->create_institutions_select_table();
+
+            else
+                $this->states->create_state_select_table();
+        }
+    }
+    function load_text_box()
+    {
+        echo "<label for='point'>Point</label>";
+        echo "<div class='form-group'>";
+        echo "<div class='form-line'>";
+        echo " <input type='text' id='point' name='point' class='form-control' placeholder='Enter Point Name'/>";
+        echo "</div>";
+        echo "</div>";
+
+    }
+
     function display_points()
     {
         $data = $this->get_data_from_post();
-        $data['button_title'] = 'Add Points';
+        $data['points_table'] = $this->create_points_table();
+        $data['button_title'] = 'Add Point';
         $data['page_title'] = 'Points';
         $data['add_update'] = 1;
         $data['content_view'] = 'Points/points_v';
         $this->admintemplate->call_admin_template($data);
+    }
+
+    function load_point_source_type_table()
+    {
+        if (isset($_GET['type'])) {
+
+            echo "<table class='table table-bordered table-striped table-hover dataTable js-exportable'>";
+            echo "<thead>";
+            echo "<tr>";
+            echo "<th>S/N</th>";
+            echo "<th>Points</th>";
+            echo "<th>Source</th>";
+            echo "<th>Source Type</th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tfoot>";
+            echo "<tr>";
+            echo "<th>S/N</th>";
+            echo "<th>Points</th>";
+            echo "<th>Source</th>";
+            echo "<th>Source Type</th>";
+            echo "</tr>";
+            echo "</tfoot>";
+            echo "</tbody>";
+            if ($_GET['type'] == 1){
+                $points = $this->M_Points->get_all_insti_points();
+                if (count($points) >= 0) {
+                    $counter = 1;
+                    foreach ($points as $key => $value) {
+                        echo "<tr>";
+                        echo "<td>{$counter}</td>";
+                        echo "<td>{$value->LOCATION}</td>";
+                        echo "<td>{$value->INSTITUTION}</td>";
+                        echo "<td>Institution</td>";
+                        echo "<td><a href='".base_url()."Admin/edit_point/{$value->LOCATION_ID}'> <i class='material-icons'>edit</i></a></td> ";
+                        if ($value->STATUS == 1)
+                            echo "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/0'> <i class='material-icons'>close</i></a></td> ";
+                        else
+                            echo "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/1'><i class='material-icons'>check</i></a></td> ";
+                        echo "</tr>";
+                        $counter++;
+                    }
+                }
+            }
+            if ($_GET['type'] == 2){
+                $points = $this->M_Points->get_all_state_points();
+                if (count($points) >= 0) {
+                    $counter = 1;
+                    foreach ($points as $key => $value) {
+                        echo "<tr>";
+                        echo "<td>{$counter}</td>";
+                        echo "<td>{$value->LOCATION}</td>";
+                        echo "<td>{$value->STATE}</td>";
+                        echo "<td>State</td>";
+                        echo "<td><a href='".base_url()."Admin/edit_point/{$value->LOCATION_ID}'> <i class='material-icons'>edit</i></a></td> ";
+                        if ($value->LOCATION_STATUS == 1)
+                            echo "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/0'> <i class='material-icons'>close</i></a></td> ";
+                        else
+                            echo "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/1'><i class='material-icons'>check</i></a></td> ";
+                        echo "</tr>";
+                        $counter++;
+                    }
+                }
+            }
+
+
+            echo "</tbody>";
+            echo "</table>";
+
+        }
+
+    }
+
+    function load_state_table()
+    {
+        if (isset($_GET['state'])) {
+
+            echo "<table class='table table-bordered table-striped table-hover dataTable js-exportable'>";
+            echo "<thead>";
+            echo "<tr>";
+            echo "<th>S/N</th>";
+            echo "<th>Points</th>";
+            echo "<th>Source</th>";
+            echo "<th>Source Type</th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tfoot>";
+            echo "<tr>";
+            echo "<th>S/N</th>";
+            echo "<th>Points</th>";
+            echo "<th>Source</th>";
+            echo "<th>Source Type</th>";
+            echo "</tr>";
+            echo "</tfoot>";
+            echo "</tbody>";
+
+                $points = $this->M_Points->get_state_points($_GET['state']);
+                if (count($points) >= 0) {
+                    $counter = 1;
+                    foreach ($points as $key => $value) {
+                        echo "<tr>";
+                        echo "<td>{$counter}</td>";
+                        echo "<td>{$value->LOCATION}</td>";
+                        echo "<td>{$value->STATE}</td>";
+                        echo "<td>State</td>";
+                        echo "<td><a href='".base_url()."Admin/edit_point/{$value->LOCATION_ID}'> <i class='material-icons'>edit</i></a></td> ";
+                        if ($value->LOCATION_STATUS == 1)
+                            echo "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/0'> <i class='material-icons'>close</i></a></td> ";
+                        else
+                            echo "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/1'><i class='material-icons'>check</i></a></td> ";
+                        echo "</tr>";
+                        $counter++;
+                    }
+                }
+
+
+
+            echo "</tbody>";
+            echo "</table>";
+
+        }
+
+    }
+
+
+    function load_insti_table()
+    {
+        if (isset($_GET['insti'])) {
+
+            echo "<table class='table table-bordered table-striped table-hover dataTable js-exportable'>";
+            echo "<thead>";
+            echo "<tr>";
+            echo "<th>S/N</th>";
+            echo "<th>Points</th>";
+            echo "<th>Source</th>";
+            echo "<th>Source Type</th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tfoot>";
+            echo "<tr>";
+            echo "<th>S/N</th>";
+            echo "<th>Points</th>";
+            echo "<th>Source</th>";
+            echo "<th>Source Type</th>";
+            echo "</tr>";
+            echo "</tfoot>";
+            echo "</tbody>";
+                $points = $this->M_Points->get_insti_point($_GET['insti']);
+                if (count($points) >= 0) {
+                    $counter = 1;
+                    foreach ($points as $key => $value) {
+                        echo "<tr>";
+                        echo "<td>{$counter}</td>";
+                        echo "<td>{$value->LOCATION}</td>";
+                        echo "<td>{$value->INSTITUTION}</td>";
+                        echo "<td>Institution</td>";
+                        echo "<td><a href='".base_url()."Admin/edit_point/{$value->LOCATION_ID}'> <i class='material-icons'>edit</i></a></td> ";
+                        if ($value->LOCATION_STATUS == 1)
+                            echo "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/0'> <i class='material-icons'>close</i></a></td> ";
+                        else
+                            echo "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/1'><i class='material-icons'>check</i></a></td> ";
+                        echo "</tr>";
+                        $counter++;
+                    }
+                }
+
+            echo "</tbody>";
+            echo "</table>";
+
+        }
+
     }
 
     function get_data_from_post(){
@@ -40,88 +280,106 @@ class Points extends MY_Controller{
         return $data;
     }
 
-    function create_institutions_table(){
-        $institutions = $this->M_Institutions->get_all_institutions();
-        $institutions_table = "";
-        if (count($institutions) >= 0) {
+    function create_points_table(){
+        $points_table = "";
+        $points_institution = $this->M_Points->get_all_insti_points();
+        if (count($points_institution) >= 0) {
             $counter = 1;
-            foreach ($institutions as $key => $value) {
-                $institutions_table .= "<tr>";
-                $institutions_table .= "<td>{$counter}</td>";
-                $institutions_table .= "<td>{$value->INSTITUTION}</td>";
-                $institutions_table .= "<td>{$value->ADDRESS}, {$value->CITY}, {$value->STATE} State</td>";
-                $institutions_table .= "<td>{$value->NAME}</td>";
-                $institutions_table .= "<td>{$value->PHONE}</td>";
-                $institutions_table .= "<td><a href='".base_url()."Admin/edit_institution/{$value->INSTITUTION_ID}'> <i class='material-icons'>edit</i></a></td> ";
+            foreach ($points_institution as $key => $value) {
+                $points_table .= "<tr>";
+                $points_table .= "<td>{$counter}</td>";
+                $points_table .= "<td>{$value->LOCATION}</td>";
+                $points_table .= "<td>{$value->INSTITUTION}</td>";
+                $points_table .= "<td>Institution</td>";
+                $points_table .= "<td><a href='".base_url()."Admin/edit_point/{$value->LOCATION_ID}'> <i class='material-icons'>edit</i></a></td> ";
                 if ($value->STATUS == 1)
-                    $institutions_table .= "<td><a href='".base_url()."Institutions/change_status/{$value->INSTITUTION_ID}/0'> <i class='material-icons'>close</i></a></td> ";
+                    $points_table .= "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/0'> <i class='material-icons'>close</i></a></td> ";
                 else
-                    $institutions_table .= "<td><a href='".base_url()."Institutions/change_status/{$value->INSTITUTION_ID}/1'><i class='material-icons'>check</i></a></td> ";
-                $institutions_table .= "</tr>";
+                    $points_table .= "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/1'><i class='material-icons'>check</i></a></td> ";
+                $points_table .= "</tr>";
                 $counter++;
             }
         }
-        return $institutions_table;
+
+        $points_institution = $this->M_Points->get_all_state_points();
+        if (count($points_institution) >= 0) {
+            $counter = 1;
+            foreach ($points_institution as $key => $value) {
+                $points_table .= "<tr>";
+                $points_table .= "<td>{$counter}</td>";
+                $points_table .= "<td>{$value->LOCATION}</td>";
+                $points_table .= "<td>{$value->STATE}</td>";
+                $points_table .= "<td>State</td>";
+                $points_table .= "<td><a href='".base_url()."Admin/edit_point/{$value->LOCATION_ID}'> <i class='material-icons'>edit</i></a></td> ";
+                if ($value->LOCATION_STATUS == 1)
+                    $points_table .= "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/0'> <i class='material-icons'>close</i></a></td> ";
+                else
+                    $points_table .= "<td><a href='".base_url()."Points/change_status/{$value->LOCATION_ID}/1'><i class='material-icons'>check</i></a></td> ";
+                $points_table .= "</tr>";
+                $counter++;
+            }
+        }
+        return $points_table;
     }
 
-    function change_status($instid, $status){
-        $this->M_Institutions->change_status($instid, $status);
-        redirect(base_url().'Admin/institutions');
+    function change_status($pointid, $status){
+        $this->M_Points->change_status($pointid, $status);
+        redirect(base_url().'Admin/points');
     }
 
-    function edit_institution($id){
-        $this->load->module(['States']);
-        $institution = $this->M_Institutions->get_institution($id);
-        if (count($institution)>0){
-            foreach ($institution as $key => $value) {
-                $state_id = $value->STATE_ID;
-                $data['institution_id'] = "{$value->INSTITUTION_ID}";
-                $data['institution'] = "{$value->INSTITUTION}";
-                $data['address'] = "{$value->ADDRESS}";
-                $data['city'] = "{$value->CITY}";
-                $data['name'] = "{$value->NAME}";
-                $data['phone'] = "{$value->PHONE}";
-                $data['email'] = "{$value->EMAIL}";
+    function edit_point($id){
+        $this->load->model(['M_States'], ['M_Institutions']);
+        $point = $this->M_Points->get_point($id);
+        if (count($point)>0){
+            foreach ($point as $key => $value) {
+                $source_type = $value->POINT_TYPE_ID;
+                if ($source_type == 1)
+                    $insti_id = $value->SOURCE_ID;
+                else
+                    $state_id = $value->SOURCE_ID;
+
+                $data['source_type'] = $source_type;
+                $data['point_id'] = "{$value->LOCATION_ID}";
+                $data['point'] = "{$value->LOCATION}";
             }
 
         }
         $this->load->module('Admintemplate');
-        $data['states'] = $this->states->create_state_selected($state_id);
-        $data['institutions_table'] = $this->create_institutions_table();
+        if ($source_type == 1) {
+            $insti = $this->M_Institutions->get_institution($insti_id);
+            if (count($insti) > 0) {
+                foreach ($insti as $key => $value)
+                    $data['insti'] = "{$value->INSTITUTION}";
+            }
+        }
+        else{
+            $state = $this->M_States->get_state($state_id);
+            if (count($state) > 0) {
+                foreach ($state as $key => $value)
+                    $data['state'] = "{$value->STATE}";
+            }
+        }
         // setting page up for update
-        $data['add_update'] = 2;
-        $data['button_title'] = 'Update Institution';
-        $data['page_title'] = 'Institution';
-        $data['content_view'] = 'Institutions/institutions_v';
+        $data['button_title'] = 'Update Point';
+        $data['page_title'] = 'Points';
+        $data['content_view'] = 'Points/edit_points_v';
         $this->admintemplate->call_admin_template($data);
     }
 
-    function post_institution($add_update){
+    function post_point($add_update){
         // load form validation library
         $this->load->library('form_validation');
 
         //rules for registration
 
-        if ($add_update == 1){
-            $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_institutions.email]');
-            $this->form_validation->set_rules('name', 'Contact Name', 'trim|required|is_unique[tbl_institutions.name]');
-            $this->form_validation->set_rules('phone', 'Contact Phone', 'trim|required|is_unique[tbl_institutions.phone]');
-            $this->form_validation->set_rules('institution', 'Institution', 'trim|required|is_unique[tbl_institutions.institution]');
 
-        }
-        else {
-            $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
-            $this->form_validation->set_rules('name', 'Contact Name', 'trim|required');
-            $this->form_validation->set_rules('phone', 'Contact Phone', 'trim|required');
-            $this->form_validation->set_rules('institution', 'Institution', 'trim|required');
-        }
-        $this->form_validation->set_rules('address', 'Institution Address', 'trim|required');
-        $this->form_validation->set_rules('city', 'Institution city', 'trim|required');
-        $this->form_validation->set_rules('statedd', 'Institution State', 'trim|required');
+            $this->form_validation->set_rules('pointdds', 'Point Type', 'trim|required');
+            $this->form_validation->set_rules('insti_state_dd', 'Institution/State', 'trim|required');
+            $this->form_validation->set_rules('point', 'Point Name', 'trim|required');
         // if validation fails
         if ($this->form_validation->run() == FALSE){
             $this->load->module('Admintemplate');
-            $this->display_institutions();
+            $this->display_points();
 
         }
         //if validation succeeds
@@ -129,15 +387,39 @@ class Points extends MY_Controller{
             if ($add_update == 1)
             {
                 //gets id and saves users registration information
-                $id = $this->M_Institutions->add_institution();
-                $this->session->set_flashdata('success', 'Institution added successfully.');
+                $id = $this->M_Points->add_points();
+                $this->session->set_flashdata('success', 'Point added successfully.');
             }
 
             else{
                 $this->M_Institutions->update_institution();
             }
             //redirects to the users page to view the added user
-            redirect(base_url().'Admin/institutions');
+            redirect(base_url().'Admin/points');
+        }
+    }
+
+    function update_point($point_id){
+        // load form validation library
+        $this->load->library('form_validation');
+
+        //rules for registration
+
+
+        $this->form_validation->set_rules('point', 'Point Name', 'trim|required');
+        // if validation fails
+        if ($this->form_validation->run() == FALSE){
+            $this->load->module('Admintemplate');
+            $this->display_points();
+
+        }
+        //if validation succeeds
+        else{
+
+                $this->M_Points->update_point($point_id);
+            $this->session->set_flashdata('success', 'Point updated successfully.');
+            //redirects to the users page to view the added user
+            redirect(base_url().'Admin/points');
         }
     }
 }

@@ -13,8 +13,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
-    <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
     <script src="<?php echo base_url(); ?>assets/plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
     <!-- Waves Effect Css -->
     <link href="<?php echo base_url(); ?>assets/plugins/node-waves/waves.css" rel="stylesheet" />
 
@@ -313,22 +314,49 @@
                 <li>
                     <a href="<?php echo base_url(); ?>Admin/institutions">
                         <i class="material-icons">schools</i>
-                        <span>Institutions</span>
+                        <span>Manage Institutions</span>
                     </a>
                 </li>
                 <li>
                     <a href="<?php echo base_url(); ?>Admin/states">
                         <i class="material-icons">map</i>
-                        <span>States</span>
+                        <span>Manage States</span>
                     </a>
                 </li>
                 <li>
                     <a href="<?php echo base_url(); ?>Admin/points">
                         <i class="material-icons">places</i>
-                        <span>Points</span>
+                        <span>Manage Points</span>
                     </a>
                 </li>
 
+                <li>
+                    <a href="<?php echo base_url(); ?>Admin/class_type">
+                        <i class="material-icons">class</i>
+                        <span>Manage Classes</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?php echo base_url(); ?>Admin/pricing">
+                        <i class="material-icons">attach_money</i>
+                        <span>Manage Pricing</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?php echo base_url(); ?>Admin/sharing_ratio">
+                        <i class="material-icons">device_hub</i>
+                        <span>Manage Sharing Ratio</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?php echo base_url(); ?>Admin/vehicles">
+                        <i class="material-icons">directions_car</i>
+                        <span>Manage Vehicle Types</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- #Menu -->

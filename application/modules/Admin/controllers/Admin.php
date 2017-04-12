@@ -6,7 +6,7 @@ class Admin extends MY_Controller{
     {
         parent::__construct();
         $this->load->module([
-            'Institutions', 'Users', 'Points', 'Classtype', 'Pricing', 'Roles', 'ForwardedScores', 'ApproveResubmissions', 'Admintemplate'
+            'Institutions', 'Users', 'Points', 'Classtype', 'Pricing', 'Roles', 'Vehicles', 'ApproveResubmissions', 'Admintemplate'
         ]);
         $this->load->model(['M_Login', 'M_Institutions']);
     }
@@ -66,7 +66,11 @@ class Admin extends MY_Controller{
         $this->roles->display_sharing_ratio();
     }
 
-    function vehicles(){
-        $this->roles->display_vehicle_types();
+    function vehicle_types(){
+        $this->vehicles->display_vehicle_types();
+    }
+
+    function edit_vehicle_type($id){
+        $this->vehicles->edit_vehicle_type($id);
     }
 }

@@ -6,40 +6,40 @@
  * Date: 12/1/2016
  * Time: 6:39 AM
  */
-class States extends MY_Controller
+class Vehicles extends MY_Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('M_States');
+        $this->load->model('M_Vehicles');
     }
 
-    function create_states_select(){
+    function create_vehicle_type_select(){
 
 
-        $state= $this->M_States->get_active_states();
+        $vehicle_types= $this->M_Vehicles->get_active_vehicle_types();
         $options = "";
-        if (count($state)){
-            foreach ($state as $key => $value){
-                $options .= "<option value = '{$value->STATE_ID}'>{$value->STATE}</option>";
+        if (count($vehicle_types)){
+            foreach ($vehicle_types as $key => $value){
+                $options .= "<option value = '{$value->VEHICLE_TYPE_ID}'>{$value->VEHICLE_TYPE}</option>";
             }
         }
         return $options;
     }
 
-    function create_state_selected($selected_state)
+    function create_vehicle_type_selected($selected_vehicle_type)
     {
-        $state = $this->M_States->get_active_states();
+        $vehicle_types = $this->M_Vehicles->get_active_vehicle_types();
         $options = "";
 
-        if (count($state)) {
-            foreach ($state as $key => $value) {
-                if ($selected_state == $value->STATE_ID) {
+        if (count($vehicle_types)) {
+            foreach ($vehicle_types as $key => $value) {
+                if ($selected_vehicle_type == $value->STATE_ID) {
                     $selected = "selected=selected ";
                 } else {
                     $selected = "";
                 }
-                $options .= "<option value = '{$value->STATE_ID}' $selected>{$value->STATE}</option>";
+                $options .= "<option value = '{$value->VEHICLE_TYPE_ID}' $selected>{$value->VEHICLE_TYPE}</option>";
 
             }
 
@@ -47,7 +47,7 @@ class States extends MY_Controller
         }
     }
 
-    function create_state_select()
+    /*function create_state_select()
     {
 
         $states = $this->M_States->get_active_states();
@@ -92,86 +92,89 @@ class States extends MY_Controller
         echo "</div>";
 
     }
-
-    function display_states()
+*/
+    function display_vehicle_types()
     {
         $data = $this->get_data_from_post();
-        $data['button_title'] = 'Add State';
-        $data['page_title'] = 'States';
-        $data['states_table'] = $this->create_states_table();
+        $data['button_title'] = 'Add Vehicle Type';
+        $data['page_title'] = 'Vehicle Types';
+        $data['vehicle_types_table'] = $this->create_vehicle_type_table();
         $data['add_update'] = 1;
-        $data['content_view'] = 'States/states_v';
+        $data['content_view'] = 'Vehicles/vehicle_types_v';
         $this->admintemplate->call_admin_template($data);
     }
 
     function get_data_from_post(){
-        $data['state_id'] = $this->input->post('state_id', TRUE);
-        $data['state'] = $this->input->post('state', TRUE);
+        $data['vehicle_type_id'] = $this->input->post('vehicle_type_id', TRUE);
+        $data['vehicle_type'] = $this->input->post('vehicle_type', TRUE);
+        $data['max_number_commuters'] = $this->input->post('max_number_commuters', TRUE);
         return $data;
     }
 
-    function create_states_table(){
-        $states = $this->M_States->get_all_states();
-        $states_table = "";
-        if (count($states) >= 0) {
+    function create_vehicle_type_table(){
+        $vehicle_types = $this->M_Vehicles->get_all_vehicle_types();
+        $vehicle_types_table = "";
+        if (count($vehicle_types) >= 0) {
             $counter = 1;
-            foreach ($states as $key => $value) {
-                $states_table .= "<tr>";
-                $states_table .= "<td>{$counter}</td>";
-                $states_table .= "<td>{$value->STATE}</td>";
-                $states_table .= "<td><a href='".base_url()."Admin/edit_state/{$value->STATE_ID}'> <i class='material-icons'>edit</i></a></td> ";
-                if ($value->STATE_STATUS == 1)
-                    $states_table .= "<td><a href='".base_url()."States/change_status/{$value->STATE_ID}/0'> <i class='material-icons'>close</i></a></td> ";
+            foreach ($vehicle_types as $key => $value) {
+                $vehicle_types_table .= "<tr>";
+                $vehicle_types_table .= "<td>{$counter}</td>";
+                $vehicle_types_table .= "<td>{$value->VEHICLE_TYPE}</td>";
+                $vehicle_types_table .= "<td>{$value->MAX_NUMBER_COMMUTERS}</td>";
+                $vehicle_types_table .= "<td><a href='".base_url()."Admin/edit_vehicle_type/{$value->VEHICLE_TYPE_ID}'> <i class='material-icons'>edit</i></a></td> ";
+                if ($value->VEHICLE_TYPE_STATUS == 1)
+                    $vehicle_types_table .= "<td><a href='".base_url()."Vehicles/change_status/{$value->VEHICLE_TYPE_ID}/0'> <i class='material-icons'>close</i></a></td> ";
                 else
-                    $states_table .= "<td><a href='".base_url()."States/change_status/{$value->STATE_ID}/1'><i class='material-icons'>check</i></a></td> ";
-                $states_table .= "</tr>";
+                    $vehicle_types_table .= "<td><a href='".base_url()."Vehicles/change_status/{$value->VEHICLE_TYPE_ID}/1'><i class='material-icons'>check</i></a></td> ";
+                $vehicle_types_table .= "</tr>";
                 $counter++;
             }
         }
-        return $states_table;
+        return $vehicle_types_table;
     }
 
-    function change_status($stateid, $status){
-        $this->M_States->change_status($stateid, $status);
-        redirect(base_url().'Admin/states');
+    function change_status($vehicle_typeid, $status){
+        $this->M_Vehicles->change_status($vehicle_typeid, $status);
+        redirect(base_url().'Admin/vehicle_types');
     }
 
-    function edit_state($id){
-        $this->load->module(['States']);
-        $state = $this->M_States->get_state($id);
-        if (count($state)>0){
-            foreach ($state as $key => $value) {
-                $data['state_id'] = "{$value->STATE_ID}";
-                $data['state'] = "{$value->STATE}";
+    function edit_vehicle_type($id){
+        $vehicle_type = $this->M_Vehicles->get_vehicle_type($id);
+        if (count($vehicle_type)>0){
+            foreach ($vehicle_type as $key => $value) {
+                $data['vehicle_type_id'] = "{$value->VEHICLE_TYPE_ID}";
+                $data['vehicle_type'] = "{$value->VEHICLE_TYPE}";
+                $data['max_number_commuters'] = "{$value->MAX_NUMBER_COMMUTERS}";
             }
 
         }
         $this->load->module('Admintemplate');
-        $data['states_table'] = $this->create_states_table();
+        $data['states_table'] = $this->create_vehicle_type_table();
         // setting page up for update
         $data['add_update'] = 2;
-        $data['button_title'] = 'Update State';
-        $data['page_title'] = 'States';
-        $data['content_view'] = 'States/states_v';
+        $data['button_title'] = 'Update Vehicle Type';
+        $data['page_title'] = 'Vehicle Types';
+        $data['content_view'] = 'Vehicles/vehicle_types_v';
         $this->admintemplate->call_admin_template($data);
     }
 
-    function post_state($add_update){
+    function post_vehicle_type($add_update){
         // load form validation library
         $this->load->library('form_validation');
 
         //rules for registration
 
         if ($add_update == 1)
-            $this->form_validation->set_rules('state', 'State Name', 'trim|required|is_unique[tbl_states.state]');
+            $this->form_validation->set_rules('vehicle_type', 'Vehicle Type', 'trim|required|is_unique[tbl_vehicle_types.vehicle_type]');
 
         else
-            $this->form_validation->set_rules('state', 'State Name', 'trim|required');
+            $this->form_validation->set_rules('vehicle_type', 'Vehicle Type', 'trim|required');
+        $this->form_validation->set_rules('max_number_commuters', 'Maximum Number of Commuters', 'trim|required');
 
         // if validation fails
         if ($this->form_validation->run() == FALSE){
             $this->load->module('Admintemplate');
-            $this->display_states();
+            $this->display_vehicle_types();
 
         }
         //if validation succeeds
@@ -179,16 +182,16 @@ class States extends MY_Controller
             if ($add_update == 1)
             {
                 //gets id and saves users registration information
-                $id = $this->M_States->add_state();
-                $this->session->set_flashdata('success', 'State added successfully.');
+                $id = $this->M_Vehicles->add_vehicle_type();
+                $this->session->set_flashdata('success', 'Vehicle Type added successfully.');
             }
 
             else{
-                $this->M_States->update_state();
-                $this->session->set_flashdata('success', 'State updated successfully.');
+                $this->M_Vehicles->update_vehicle_type();
+                $this->session->set_flashdata('success', 'Vehicle Type updated successfully.');
             }
             //redirects to the users page to view the added user
-            redirect(base_url().'Admin/states');
+            redirect(base_url().'Admin/vehicle_types');
         }
     }
 }

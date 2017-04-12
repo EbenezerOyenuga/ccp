@@ -352,7 +352,7 @@
                 </li>
 
                 <li>
-                    <a href="<?php echo base_url(); ?>Admin/vehicles">
+                    <a href="<?php echo base_url(); ?>Admin/vehicle_types">
                         <i class="material-icons">directions_car</i>
                         <span>Manage Vehicle Types</span>
                     </a>

@@ -68,7 +68,7 @@
                         </table>
                     </div>
                     <div role="tabpanel" <?php if ($add_update == 2){ ?>class="tab-pane fade in active"  <?php } else { ?> class="tab-pane fade" <?php } ?> id="new">
-                        <form method="POST" class="form-horizontal" action = "<?php echo base_url(); ?>States/post_state/<?php echo $add_update; ?>">
+                        <form method="POST" class="form-horizontal" action = "<?php echo base_url(); ?>Vehicles/post_vehicle_type/<?php echo $add_update; ?>">
                             <div class="row clearfix">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                     <label for="motto">Vehicle Type:</label>
@@ -85,7 +85,7 @@
                                     <label for="motto">Max. Number of Commuters:</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" id="max_number" name="max_number" class="form-control" placeholder="Enter Maximum Number:" value="<?php echo $max_number; ?>">
+                                            <input type="text" id="max_number_commuters" name="max_number_commuters" class="form-control" placeholder="Enter Maximum Number:" value="<?php echo $max_number_commuters; ?>">
 
                                         </div>
                                     </div>

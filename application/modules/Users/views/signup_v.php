@@ -28,19 +28,26 @@
 <body class="signup-page">
 <div class="signup-box">
     <div class="logo">
-        <a href="javascript:void(0);">Admin<b>BSB</b></a>
-        <small>Admin BootStrap Based - Material Design</small>
+        <a href="javascript:void(0);"><img src="<?php echo base_url(); ?>assets/images/CCP_blue.jpg"></a>
     </div>
     <div class="card">
         <div class="body">
-            <form id="sign_up" method="POST">
-                <div class="msg">Register a new membership</div>
+            <form id="sign_up" method="POST" action="<?php echo base_url(); ?>Users/signup" >
+                <div class="msg">Register as vehicle owner</div>
                 <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="namesurname" placeholder="Name Surname" required autofocus>
+                        <input type="text" class="form-control" name="username" placeholder="Usernmae" required autofocus>
+                    </div>
+                </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="text" class="form-control" name="name" placeholder="Name" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">
@@ -49,6 +56,38 @@
                         </span>
                     <div class="form-line">
                         <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">contact_phone</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="email" class="form-control" name="phone" placeholder="Tel. Number" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">directions_car</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="text" class="form-control" name="vehicle" placeholder="Vehicle Name" required autofocus>
+                    </div>
+                </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">drive_eta</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="text" class="form-control" name="vehicle_models" placeholder="Vehicle Model" required autofocus>
+                    </div>
+                </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">confirmation_number</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="text" class="form-control" name="plate_number" placeholder="Vehicle Plate Number" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">

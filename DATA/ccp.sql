@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2017 at 01:08 AM
+-- Generation Time: May 08, 2017 at 06:52 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -33,6 +33,13 @@ CREATE TABLE `tbl_assigned_roles` (
   `ASSIGNED_SUBROLE` char(4) NOT NULL,
   `ASSIGNED_SUBROLE2` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_assigned_roles`
+--
+
+INSERT INTO `tbl_assigned_roles` (`ASSIGNED_ROLE_ID`, `LOGIN_ID`, `ASSIGNED_ROLE`, `ASSIGNED_SUBROLE`, `ASSIGNED_SUBROLE2`) VALUES
+(1, 1, 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -146,6 +153,13 @@ CREATE TABLE `tbl_login` (
   `STATUS` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tbl_login`
+--
+
+INSERT INTO `tbl_login` (`LOGIN_ID`, `USERNAME`, `EMAIL`, `PASSWORD`, `STATUS`) VALUES
+(1, 'admin', '', '70ccd9007338d6d81dd3b6271621b9cf9a97ea00', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -210,6 +224,7 @@ CREATE TABLE `tbl_roles` (
   `SHARING_RATIO` int(2) NOT NULL,
   `ROLE_STATUS` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Dumping data for table `tbl_roles`
 --
@@ -230,6 +245,47 @@ CREATE TABLE `tbl_states` (
   `STATE` varchar(100) NOT NULL,
   `STATE_STATUS` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_states`
+--
+
+INSERT INTO `tbl_states` (`STATE_ID`, `STATE`, `STATE_STATUS`) VALUES
+(1, 'Abia', 1),
+(2, 'Adamawa', 1),
+(3, 'Anambra', 1),
+(4, 'Bauchi', 1),
+(5, 'Bayelsa', 1),
+(6, 'Benue', 1),
+(7, 'Borno', 1),
+(8, 'Cross River', 1),
+(9, 'Delta', 1),
+(10, 'Ebonyi', 1),
+(11, 'Enugu', 1),
+(12, 'Edo', 1),
+(13, 'Ekiti', 1),
+(14, 'Gombe', 1),
+(15, 'Imo', 1),
+(16, 'Jigawa', 1),
+(17, 'Kaduna', 1),
+(18, 'Kano', 1),
+(19, 'Katsina', 1),
+(20, 'Kebbi', 1),
+(21, 'Kogi', 1),
+(22, 'Kwara', 1),
+(23, 'Lagos', 1),
+(24, 'Nassarawa', 1),
+(25, 'Niger', 1),
+(26, 'Ogun', 1),
+(27, 'Ondo', 1),
+(28, 'Osun', 1),
+(29, 'Oyo', 1),
+(30, 'Plateau', 1),
+(31, 'Rivers', 1),
+(32, 'Sokoto', 1),
+(33, 'Taraba', 1),
+(34, 'Yobe', 1),
+(35, 'Zamfara', 1);
 
 -- --------------------------------------------------------
 
@@ -319,6 +375,19 @@ CREATE TABLE `tbl_vehicles` (
   `MODIFIED_DATE` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_vehicle_types`
+--
+
+CREATE TABLE `tbl_vehicle_types` (
+  `VEHICLE_TYPE_ID` int(11) NOT NULL,
+  `VEHICLE_TYPE` varchar(150) NOT NULL,
+  `MAX_NUMBER_COMMUTERS` int(2) NOT NULL,
+  `VEHICLE_TYPE_STATUS` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
@@ -341,6 +410,12 @@ ALTER TABLE `tbl_class`
 --
 ALTER TABLE `tbl_countries`
   ADD PRIMARY KEY (`COUNTRY_ID`);
+
+--
+-- Indexes for table `tbl_institutions`
+--
+ALTER TABLE `tbl_institutions`
+  ADD PRIMARY KEY (`INSTITUTION_ID`);
 
 --
 -- Indexes for table `tbl_journeys`
@@ -425,6 +500,12 @@ ALTER TABLE `tbl_vehicles`
   ADD UNIQUE KEY `ID_UNIQUE` (`ID`);
 
 --
+-- Indexes for table `tbl_vehicle_types`
+--
+ALTER TABLE `tbl_vehicle_types`
+  ADD PRIMARY KEY (`VEHICLE_TYPE_ID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -432,7 +513,7 @@ ALTER TABLE `tbl_vehicles`
 -- AUTO_INCREMENT for table `tbl_assigned_roles`
 --
 ALTER TABLE `tbl_assigned_roles`
-  MODIFY `ASSIGNED_ROLE_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ASSIGNED_ROLE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_class`
 --
@@ -462,7 +543,7 @@ ALTER TABLE `tbl_locations`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `LOGIN_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `LOGIN_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_lookup`
 --
@@ -482,12 +563,12 @@ ALTER TABLE `tbl_pricing`
 -- AUTO_INCREMENT for table `tbl_roles`
 --
 ALTER TABLE `tbl_roles`
-  MODIFY `ROLE_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ROLE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tbl_states`
 --
 ALTER TABLE `tbl_states`
-  MODIFY `STATE_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `STATE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `tbl_subroles`
 --
@@ -513,6 +594,11 @@ ALTER TABLE `tbl_users_feedback`
 --
 ALTER TABLE `tbl_vehicles`
   MODIFY `ID` int(30) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tbl_vehicle_types`
+--
+ALTER TABLE `tbl_vehicle_types`
+  MODIFY `VEHICLE_TYPE_ID` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -43,9 +43,10 @@ class Login extends MY_Controller{
 
 
             if (isset($userid)){
-                $password = $this->input->post('password');
+                $password = sha1($this->input->post('password'));
                 $role = $this->input->post('role');
                 $userdetails = $this->M_Login->confirm_user_password($userid, $password, $role);
+
                 if (count($userdetails) == 1){
 
                     foreach ($userdetails as $key => $value) {

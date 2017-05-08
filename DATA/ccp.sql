@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2017 at 12:24 AM
+-- Generation Time: May 08, 2017 at 01:08 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -49,9 +49,16 @@ INSERT INTO `tbl_assigned_roles` (`ASSIGNED_ROLE_ID`, `LOGIN_ID`, `ASSIGNED_ROLE
 
 CREATE TABLE `tbl_class` (
   `CLASS_ID` int(11) NOT NULL,
-  `CLASS` varchar(100) NOT NULL,
+  `CLASS_TYPE` varchar(100) NOT NULL,
   `CLASS_STATUS` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_class`
+--
+
+INSERT INTO `tbl_class` (`CLASS_ID`, `CLASS_TYPE`, `CLASS_STATUS`) VALUES
+(1, 'First Class', 1);
 
 -- --------------------------------------------------------
 
@@ -83,6 +90,13 @@ CREATE TABLE `tbl_institutions` (
   `EMAIL` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tbl_institutions`
+--
+
+INSERT INTO `tbl_institutions` (`INSTITUTION_ID`, `ADDRESS`, `CITY`, `STATE_ID`, `INSTITUTION`, `STATUS`, `NAME`, `PHONE`, `EMAIL`) VALUES
+(1, 'Babcock University', 'Ilishan-Remo', 26, 'Babcock University', 1, 'Ebenezer Oyenuga', '7087659939', 'ebene.oyen@yahoo.com');
+
 -- --------------------------------------------------------
 
 --
@@ -111,11 +125,19 @@ CREATE TABLE `tbl_journeys` (
 
 CREATE TABLE `tbl_locations` (
   `LOCATION_ID` int(11) NOT NULL,
-  `POINT_ID` int(2) NOT NULL,
+  `POINT_TYPE_ID` int(1) NOT NULL,
   `SOURCE_ID` int(5) NOT NULL,
   `LOCATION` varchar(255) NOT NULL,
   `LOCATION_STATUS` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_locations`
+--
+
+INSERT INTO `tbl_locations` (`LOCATION_ID`, `POINT_TYPE_ID`, `SOURCE_ID`, `LOCATION`, `LOCATION_STATUS`) VALUES
+(1, 1, 1, 'Education and Humanities', 1),
+(2, 2, 23, 'Ketu', 1);
 
 -- --------------------------------------------------------
 
@@ -177,10 +199,18 @@ CREATE TABLE `tbl_pricing` (
   `PRICE_ID` int(11) NOT NULL,
   `SOURCE_ID` int(5) NOT NULL,
   `DESTINATION_ID` int(5) NOT NULL,
+  `STATE_POINT_ID` int(2) NOT NULL,
   `CLASS_ID` int(3) NOT NULL,
   `PRICE` int(7) NOT NULL,
   `PRICE_STATUS` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_pricing`
+--
+
+INSERT INTO `tbl_pricing` (`PRICE_ID`, `SOURCE_ID`, `DESTINATION_ID`, `STATE_POINT_ID`, `CLASS_ID`, `PRICE`, `PRICE_STATUS`) VALUES
+(1, 1, 23, 2, 1, 5000, 1);
 
 -- --------------------------------------------------------
 
@@ -191,6 +221,7 @@ CREATE TABLE `tbl_pricing` (
 CREATE TABLE `tbl_roles` (
   `ROLE_ID` int(11) NOT NULL,
   `ROLE` varchar(100) NOT NULL,
+  `SHARING_RATIO` int(2) NOT NULL,
   `ROLE_STATUS` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -198,10 +229,10 @@ CREATE TABLE `tbl_roles` (
 -- Dumping data for table `tbl_roles`
 --
 
-INSERT INTO `tbl_roles` (`ROLE_ID`, `ROLE`, `ROLE_STATUS`) VALUES
-(1, 'Administrator', 1),
-(2, 'Owner', 1),
-(3, 'Driver', 1);
+INSERT INTO `tbl_roles` (`ROLE_ID`, `ROLE`, `SHARING_RATIO`, `ROLE_STATUS`) VALUES
+(1, 'Administrator', 60, 1),
+(2, 'Owner', 30, 1),
+(3, 'Driver', 10, 1);
 
 -- --------------------------------------------------------
 
@@ -468,7 +499,7 @@ ALTER TABLE `tbl_assigned_roles`
 -- AUTO_INCREMENT for table `tbl_class`
 --
 ALTER TABLE `tbl_class`
-  MODIFY `CLASS_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `CLASS_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_countries`
 --
@@ -478,7 +509,7 @@ ALTER TABLE `tbl_countries`
 -- AUTO_INCREMENT for table `tbl_institutions`
 --
 ALTER TABLE `tbl_institutions`
-  MODIFY `INSTITUTION_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `INSTITUTION_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_journeys`
 --
@@ -488,7 +519,7 @@ ALTER TABLE `tbl_journeys`
 -- AUTO_INCREMENT for table `tbl_locations`
 --
 ALTER TABLE `tbl_locations`
-  MODIFY `LOCATION_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `LOCATION_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_login`
 --
@@ -508,7 +539,7 @@ ALTER TABLE `tbl_points`
 -- AUTO_INCREMENT for table `tbl_pricing`
 --
 ALTER TABLE `tbl_pricing`
-  MODIFY `PRICE_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `PRICE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_roles`
 --

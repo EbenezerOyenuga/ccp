@@ -12,6 +12,7 @@ class Users extends MY_Controller
     {
         parent::__construct();
         $this->load->model("M_Users");
+        $this->load->model("M_Institutions");
     }
     function display_users(){
         $data = $this->get_data_from_post();
@@ -42,6 +43,13 @@ class Users extends MY_Controller
     function register($data = NULL){
 
         $this->load->view('signup_v', $data);
+
+    }
+
+    function register_commuter(){
+      $this->load->module('Institutions');
+      $data['institutions'] = $this->institutions->create_institutions_select_form();
+      $this->load->view('commuterSignup_v', $data);
 
     }
 

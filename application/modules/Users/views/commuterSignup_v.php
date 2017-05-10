@@ -32,14 +32,15 @@
     </div>
     <div class="card">
         <div class="body">
-            <form id="sign_up" method="POST" action="<?php echo base_url(); ?>Users/signup" >
+            <form id="sign_up" method="POST" action="<?php echo base_url(); ?>users/post_user" >
+              <?php echo validation_errors('<p style="color: red" />'); ?>
                 <div class="msg">Register as Commuter</div>
                 <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                        <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo set_value('username');?>" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">
@@ -47,7 +48,7 @@
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="name" placeholder="Full Name" required autofocus>
+                        <input type="text" class="form-control" name="name" placeholder="Full Name" value="<?php echo set_value('name');?>" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">
@@ -55,7 +56,7 @@
                             <i class="material-icons">email</i>
                         </span>
                     <div class="form-line">
-                        <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                        <input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo set_value('email');?>" required>
                     </div>
                 </div>
                 <div class="input-group">
@@ -63,7 +64,7 @@
                             <i class="material-icons">contact_phone</i>
                         </span>
                     <div class="form-line">
-                        <input type="email" class="form-control" name="phone" placeholder="Mobile Number" required>
+                        <input type="text" class="form-control" name="phone" maxlength="11" value="<?php echo set_value('phone');?>" placeholder="Mobile Number" required>
                     </div>
                 </div>
                 <div class="input-group">
@@ -71,8 +72,8 @@
                             <i class="material-icons">create</i>
                         </span>
                     <div class="form-line">
-                        <select class="form-control show-tick" name="instituion">
-                            <option>Select Institution:</option>
+                        <select class="form-control show-tick" name="institution" required>
+                            <option value="">--Select Institution--</option>
                             <?php echo $institutions; ?>
                         </select>
                     </div>
@@ -82,7 +83,7 @@
                             <i class="material-icons">lock</i>
                         </span>
                     <div class="form-line">
-                        <input type="password" class="form-control" name="password" minlength="6" placeholder="Password" required>
+                        <input type="password" class="form-control" name="password" value="<?php echo set_value('password');?>" minlength="6" placeholder="Password" required>
                     </div>
                 </div>
                 <div class="input-group">
@@ -90,7 +91,7 @@
                             <i class="material-icons">lock</i>
                         </span>
                     <div class="form-line">
-                        <input type="password" class="form-control" name="confirm" minlength="6" placeholder="Confirm Password" required>
+                        <input type="password" class="form-control" name="conf_pword" minlength="6" value="<?php echo set_value('conf_pword');?>" placeholder="Confirm Password" required>
                     </div>
                 </div>
                 <div class="form-group">

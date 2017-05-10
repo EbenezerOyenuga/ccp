@@ -12,15 +12,17 @@ class Users extends MY_Controller
     {
         parent::__construct();
         $this->load->model("M_Users");
+        $this->load->model("M_Login");
+        $this->load->model("M_Roles");
         $this->load->model("M_Institutions");
     }
     function display_users(){
         $data = $this->get_data_from_post();
-        $this->load->module("Titles");
+        //$this->load->module("Titles");
         $this->load->module("Roles");
-        $data['title'] = $this->titles->create_titles_select();
+        //$data['title'] = $this->titles->create_titles_select();
         $data['role'] = $this->roles->create_roles_select();
-        $data['users_table'] = $this->create_user_table();
+        //$data['users_table'] = $this->create_user_table();
         // setting page up for adding user
         $data['add_update'] = 1;
         $data['button_title'] = 'Add User';
@@ -128,47 +130,38 @@ class Users extends MY_Controller
     }
 
 
-    function post_user($add_update){
+    function post_user(){
         // load form validation library
         $this->load->library('form_validation');
-        $this->load->model('M_Roles');
+        //$this->load->model('M_Institutions');
 
         //rules for registration
-        if ($add_update == 1)
-            $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_login.email]');
-        else $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
-        $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|min_length[3]|max_length[14]');
-        $this->form_validation->set_rules('surname', 'Surname', 'trim|required|min_length[3]|max_length[14]');
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('role', 'Role', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[tbl_login.username]|min_length[4]|max_length[15]');
+        $this->form_validation->set_rules('name', 'Full Name', 'trim|required|min_length[3]|max_length[255]');
+        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_login.email]');
+        $this->form_validation->set_rules('phone', 'Phone Number', 'trim|required|numeric|min_length[11]|is_unique[tbl_users.phonenumber]');
+        $this->form_validation->set_rules('institution','Institution','required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]');
+        $this->form_validation->set_rules('conf_pword', 'Confirm Password', 'trim|required|matches[password]|min_length[6]');
 
         // if validation fails
         if ($this->form_validation->run() == FALSE){
             $this->load->module('Admintemplate');
-            $this->display_users();
+            $this->register_commuter();
 
         }
         //if validation succeeds
         else{
-            if ($add_update == 1)
-            {
                 //gets id and saves users registration information
-                $id = $this->M_Users->add_user();
-                $this->M_Roles->assign_role_user($id);
-                if ($this->input->post('residence', TRUE)!= NULL)
-                    $this->M_Roles->assign_subrole_user($id);
-            }
-
-            else{
-                $this->M_Users->update_user();
-                $this->M_Users->update_role();
-                if ($this->input->post('residence', TRUE)!= NULL)
-                    $this->M_Roles->assign_subrole_user($this->input->post('id', TRUE));
+                $id = $this->M_Login->add_user_login();
+                $this->M_Users->add_user($id);
+                $this->M_Roles->assign_role_user_commuter($id);
+                $this->session->set_flashdata('reg','Signup Successful!');
+                redirect(base_url().'login');
             }
         //redirects to the users page to view the added user
-        redirect(base_url().'Admin/users');
-        }
     }
+
     function delete_user($userid){
         $this->M_Users->delete_user($userid);
         redirect(base_url().'Admin/users');
@@ -199,7 +192,7 @@ class Users extends MY_Controller
         $this->admintemplate->call_admin_template($data);
     }
 
-    function create_user_table(){
+    /*function create_user_table(){
         $users = $this->M_Users->get_all_users();
 
         $users_table = "";
@@ -219,5 +212,6 @@ class Users extends MY_Controller
             }
             return $users_table;
         }
-    }
+    }*/
+
 }

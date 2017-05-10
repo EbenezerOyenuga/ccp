@@ -26,6 +26,15 @@ class M_Roles extends CI_Model
         return $this->db->insert('tbl_assigned_roles', $posted_data);
     }
 
+    function assign_role_user_commuter($id){
+        $posted_data = array(
+            'LOGIN_ID' => $id,
+            'ASSIGNED_ROLE' => '4'
+
+        );
+        return $this->db->insert('tbl_assigned_roles', $posted_data);
+    }
+
     function assign_subrole_user($id){
         $this->db->set('ASSIGNED_SUBROLE', $this->input->post('residence', TRUE));
         $this->db->where('LOGIN_ID', $id);

@@ -21,6 +21,18 @@ class M_Login extends CI_Model
 
         return $query->result();
     }
+
+    function add_user_login(){
+        $posted_data = array(
+          'username' => ucwords($this->input->post('username', TRUE)),
+          'email' => $this->input->post('email', TRUE),
+          'password' => sha1($this->input->post('conf_pword', TRUE)),
+        );
+        $this->db->insert('tbl_login', $posted_data);
+
+        return $this->db->insert_id();
+    }
+
     function confirm_user_password($userid, $password, $role){
 
         $this->db->select('assigned_role, username, role, tbl_login.login_id, role_id');

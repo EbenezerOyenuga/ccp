@@ -120,47 +120,114 @@ class Users extends MY_Controller
     }
 
 
-    function post_user($add_update){
+    function signup($add_update){
         // load form validation library
         $this->load->library('form_validation');
         $this->load->model('M_Roles');
 
         //rules for registration
-        if ($add_update == 1)
-            $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_login.email]');
-        else $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
-        $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|min_length[3]|max_length[14]');
-        $this->form_validation->set_rules('surname', 'Surname', 'trim|required|min_length[3]|max_length[14]');
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('role', 'Role', 'required');
+
+        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_login.email]');
+        $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|min_length[3]|max_length[25]');
+        $this->form_validation->set_rules('surname', 'Surname', 'trim|required|min_length[3]|max_length[25]');
+        $this->form_validation->set_rules('phone', 'Phone Number', 'trim|required');
+        $this->form_validation->set_rules('vehicle', 'Vehicle Name', 'trim|required');
+        $this->form_validation->set_rules('vehicle_models', 'Vehicle Models', 'trim|required');
+        $this->form_validation->set_rules('vehicle_plate', 'Vehicle Plate number', 'trim|required|is_unique[tbl_vehicles.plate_number]');
+        $this->form_validation->set_rules('user_pic', 'Passport Picture', 'trim|required|is_unique[tbl_vehicles.plate_number]');
+        $this->form_validation->set_rules('vehicle_pic', 'Vehicle Picture', 'trim|required|is_unique[tbl_vehicles.plate_number]');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        $this->form_validation->set_rules('confirm', 'Confirm password', 'trim|required|');
 
         // if validation fails
         if ($this->form_validation->run() == FALSE){
-            $this->load->module('Admintemplate');
             $this->display_users();
 
         }
         //if validation succeeds
         else{
-            if ($add_update == 1)
-            {
-                //gets id and saves users registration information
-                $id = $this->M_Users->add_user();
-                $this->M_Roles->assign_role_user($id);
-                if ($this->input->post('residence', TRUE)!= NULL)
-                    $this->M_Roles->assign_subrole_user($id);
-            }
 
-            else{
-                $this->M_Users->update_user();
-                $this->M_Users->update_role();
-                if ($this->input->post('residence', TRUE)!= NULL)
-                    $this->M_Roles->assign_subrole_user($this->input->post('id', TRUE));
-            }
+                $id = $this->M_Login->add_vehicle_owner();
+                $files = $_FILES;
+                if (!file_exists("./asset/images/Vehicle_Pictures{$id}/")) {
+                    mkdir("./asset/images/Vehicle_Pictures{$id}/", 0777, true);
+                }
+
+                $vehicle_config = $this->set_vehicle_upload_option($id);
+                $this->upload->initialize($vehicle_config);
+
+                if($this->upload->do_upload('vehicle_pic')){
+                   $this->M_Vehicles->assign_vehicle($id);
+                    $file_path = $vehicle_config['upload_path'].$vehicle_config['file_name'].$this->upload->data('file_ext');
+                    $file_thumb_path = $config['upload_path'].$vehicle_config['file_name'].'_thumb'.$this->upload->data('file_ext');
+
+                    $config_thumb = $this->set_vehicle_thumb_option($file_path);
+
+                    $this->load->library('image_lib');
+                    $this->image_lib->initialize($config_thumb);
+
+                    $this->image_lib->resize();
+                    $this->M_Vehicles->update_vehicle_pix($id, $file_path, $file_thumb_path);
+                }
+
+
+                $files = $_FILES;
+                if (!file_exists("./asset/images/Users_Pictures/")) {
+                    mkdir("./asset/images/Users_Pictures/", 0777, true);
+                }
+
+                $user_config = $this->set_user_upload_option($id);
+                $this->upload->initialize($user_config);
+
+                if($this->upload->do_upload('user_pic')){
+                  $file_path = $user_config['upload_path'].$id.$this->upload->data('file_ext');
+                    $this->M_Users->add_user($id);
+
+                }
+                $this->M_Roles->assign_role_user($id);
+
+                $this->M_Users->add_user($id);
+
         //redirects to the users page to view the added user
         redirect(base_url().'Admin/users');
         }
     }
+
+    private function set_vehicle_thumb_option($file_path){
+        //resize image options
+        $config_thumb = array();
+        $config_thumb['image_library'] = 'gd2';
+        $config_thumb['source_image'] = $file_path;
+        $config_thumb['create_thumb'] = TRUE;
+        $config_thumb['maintain_ratio'] = TRUE;
+        $config_thumb['width']         = 360;
+        $config_thumb['height']       = 240;
+
+        return $config_thumb;
+    }
+    private function set_vehicle_upload_option($id){
+        //upload image options
+        $config = array();
+        $config['upload_path'] = "./asset/images/Vehicle_Pictures{$id}/";
+        $config['file_name'] = date_timestamp_get();
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '0';
+
+        return $config;
+    }
+
+    private function set_user_upload_option($id){
+        //upload image options
+        $config = array();
+        $config['upload_path'] = "./asset/images/Users_Pictures/";
+        $config['file_name'] = $id;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '0';
+
+        return $config;
+    }
+
     function delete_user($userid){
         $this->M_Users->delete_user($userid);
         redirect(base_url().'Admin/users');

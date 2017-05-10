@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Sign Up | Bootstrap Based Admin Template - Material Design</title>
+    <title>Sign Up | CCP Vehicle Owner Registration Page</title>
     <!-- Favicon-->
     <link rel="icon" href="<?php echo base_url(); ?>assets/favicon.ico" type="image/x-icon">
 
@@ -34,12 +34,13 @@
         <div class="body">
             <form id="sign_up" method="POST" action="<?php echo base_url(); ?>Users/signup" >
                 <div class="msg">Register as vehicle owner</div>
+
                 <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                        <input type="text" class="form-control" name="surname" placeholder="Surname" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">
@@ -47,7 +48,7 @@
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="name" placeholder="Name" required autofocus>
+                        <input type="text" class="form-control" name="firstname" placeholder="Firstname" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">
@@ -63,7 +64,14 @@
                             <i class="material-icons">contact_phone</i>
                         </span>
                     <div class="form-line">
-                        <input type="email" class="form-control" name="phone" placeholder="Tel. Number" required>
+                        <input type="text" class="form-control" name="phone" placeholder="Tel. Number" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                  <label>Users Picture</label>
+
+                    <div class="form-line">
+                        <input type="file" name="user_pic" placeholder="Student Picture"/>
                     </div>
                 </div>
                 <div class="input-group">
@@ -88,6 +96,20 @@
                         </span>
                     <div class="form-line">
                         <input type="text" class="form-control" name="plate_number" placeholder="Vehicle Plate Number" required autofocus>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Vehicle Picture</label>
+                    <div class="form-line">
+                        <input type="file" name="vehicle_pic" placeholder="Vehicle Picture"/>
+                    </div>
+                </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">

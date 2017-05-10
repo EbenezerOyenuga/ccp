@@ -23,19 +23,22 @@ class M_Users extends CI_Model
         return $query->result();
     }
 
-    function add_user(){
-
+    function add_user($id){
         $posted_data = array(
-            'EMAIL' => $this->input->post('email', TRUE),
-            'TITLE_ID' => $this->input->post('title', TRUE),
+          'login_id' => $id,
+          'phonenumber' => $this->input->post('phone', TRUE),
+          'firstname' => ucwords($this->input->post('name', TRUE)),
+          'institution_id' => $this->input->post('institution', TRUE),
+            /*'TITLE_ID' => $this->input->post('title', TRUE),
             'FIRSTNAME' => $this->input->post('firstname', TRUE),
             'SURNAME' => $this->input->post('surname', TRUE),
-            'PASSWORD' => sha1('Password1')
+            'PASSWORD' => sha1('Password1')*/
         );
-        $this->db->insert('tbl_login', $posted_data);
+        $this->db->insert('tbl_users', $posted_data);
 
         return $this->db->insert_id();
     }
+
     function update_user(){
         $this->db->set('EMAIL', $this->input->post('email', TRUE));
         $this->db->set('TITLE_ID', $this->input->post('title', TRUE));

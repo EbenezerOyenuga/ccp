@@ -157,6 +157,17 @@ class Institutions extends MY_Controller{
 
     }
 
+    function create_institutions_select_form(){
+        $institutions = $this->M_Institutions->get_active_institutions();
+        $options = "";
+        if (count($institutions)) {
+            foreach ($institutions as $key => $value) {
+                $options .=   "<option value = '{$value->INSTITUTION_ID}'>{$value->INSTITUTION}</option>";
+            }
+        }
+        return $options;
+    }
+
     function create_institutions_select_table()
     {
 

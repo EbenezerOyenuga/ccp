@@ -12,14 +12,17 @@ class Users extends MY_Controller
     {
         parent::__construct();
         $this->load->model("M_Users");
+        $this->load->model("M_Login");
+        $this->load->model("M_Roles");
+        $this->load->model("M_Institutions");
     }
     function display_users(){
         $data = $this->get_data_from_post();
-        $this->load->module("Titles");
+        //$this->load->module("Titles");
         $this->load->module("Roles");
-        $data['title'] = $this->titles->create_titles_select();
+        //$data['title'] = $this->titles->create_titles_select();
         $data['role'] = $this->roles->create_roles_select();
-        $data['users_table'] = $this->create_user_table();
+        //$data['users_table'] = $this->create_user_table();
         // setting page up for adding user
         $data['add_update'] = 1;
         $data['button_title'] = 'Add User';
@@ -42,6 +45,13 @@ class Users extends MY_Controller
     function register($data = NULL){
 
         $this->load->view('signup_v', $data);
+
+    }
+
+    function register_commuter(){
+      $this->load->module('Institutions');
+      $data['institutions'] = $this->institutions->create_institutions_select_form();
+      $this->load->view('commuterSignup_v', $data);
 
     }
 
@@ -120,10 +130,36 @@ class Users extends MY_Controller
     }
 
 
-    function signup($add_update){
+
+    function post_user(){
+      $this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[tbl_login.username]|min_length[4]|max_length[15]');
+      $this->form_validation->set_rules('name', 'Full Name', 'trim|required|min_length[3]|max_length[255]');
+      $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_login.email]');
+      $this->form_validation->set_rules('phone', 'Phone Number', 'trim|required|numeric|min_length[11]|is_unique[tbl_users.phonenumber]');
+      $this->form_validation->set_rules('institution','Institution','required');
+      $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]');
+      $this->form_validation->set_rules('conf_pword', 'Confirm Password', 'trim|required|matches[password]|min_length[6]');
+
+      // if validation fails
+      if ($this->form_validation->run() == FALSE){
+          $this->load->module('Admintemplate');
+          $this->register_commuter();
+
+      }
+      else{
+      //gets id and saves users registration information
+      $id = $this->M_Login->add_user_login();
+      $this->M_Users->add_user($id);
+      $this->M_Roles->assign_role_user_commuter($id);
+      $this->session->set_flashdata('reg','Signup Successful!');
+      redirect(base_url().'login');
+      }
+    }
+    
+      function signup($add_update){
         // load form validation library
         $this->load->library('form_validation');
-        $this->load->model('M_Roles');
+        //$this->load->model('M_Institutions');
 
         //rules for registration
 
@@ -143,7 +179,6 @@ class Users extends MY_Controller
         // if validation fails
         if ($this->form_validation->run() == FALSE){
             $this->display_users();
-
         }
         //if validation succeeds
         else{
@@ -187,11 +222,9 @@ class Users extends MY_Controller
                 }
                 $this->M_Roles->assign_role_user($id);
 
-                $this->M_Users->add_user($id);
 
+            }
         //redirects to the users page to view the added user
-        redirect(base_url().'Admin/users');
-        }
     }
 
     private function set_vehicle_thumb_option($file_path){
@@ -258,7 +291,7 @@ class Users extends MY_Controller
         $this->admintemplate->call_admin_template($data);
     }
 
-    function create_user_table(){
+    /*function create_user_table(){
         $users = $this->M_Users->get_all_users();
 
         $users_table = "";
@@ -278,5 +311,6 @@ class Users extends MY_Controller
             }
             return $users_table;
         }
-    }
+    }*/
+
 }

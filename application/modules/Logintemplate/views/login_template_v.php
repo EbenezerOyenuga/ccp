@@ -34,6 +34,7 @@
     <div class="card">
         <div class="body">
             <form id="sign_in" method="POST" action="<?php echo base_url(); ?>Login/sign_in" >
+              <h style="color:green"><?php echo $this->session->flashdata('reg');?></h>
                 <div class="msg">Sign in to start your session</div>
                 <?php echo validation_errors('<p style="color: red" />'); ?>
                 <?php if (isset($_SESSION['message']))echo $_SESSION['message'];?>
@@ -74,12 +75,23 @@
                     </div>
                 </div>
                 <div class="row m-t-15 m-b--20">
-                    <div class="col-xs-6">
-                        <a href="<?php echo base_url(); ?>Users/register">Register Now!</a>
+                  <div col-xs-12>
+                    <div class="row">
+                      <div class="col-xs-12">
+                          <a href="forgot-password.html">Forgot Password?</a>
+                      </div>
                     </div>
-                    <div class="col-xs-6 align-right">
-                        <a href="forgot-password.html">Forgot Password?</a>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <a href="<?php echo base_url(); ?>Users/register">Register as Vehicle Owner!</a>
+                      </div>
                     </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <a href="<?php echo base_url(); ?>Users/register_commuter">Register as Commuter!</a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </form>
         </div>

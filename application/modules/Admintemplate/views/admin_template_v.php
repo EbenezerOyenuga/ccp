@@ -1,3 +1,6 @@
+<?php if ($this->session->userdata('loggedin') == 1 && $this->session->userdata('user_role') == 1){
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -513,3 +516,4 @@
 </body>
 
 </html>
+<?php } else {redirect(base_url().'Login');}

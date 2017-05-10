@@ -155,7 +155,7 @@ class Users extends MY_Controller
       redirect(base_url().'login');
       }
     }
-    
+
       function signup($add_update){
         // load form validation library
         $this->load->library('form_validation');
@@ -183,7 +183,7 @@ class Users extends MY_Controller
         //if validation succeeds
         else{
 
-                $id = $this->M_Login->add_vehicle_owner();
+                $id = $this->M_Login->add_user_login();
                 $files = $_FILES;
                 if (!file_exists("./asset/images/Vehicle_Pictures{$id}/")) {
                     mkdir("./asset/images/Vehicle_Pictures{$id}/", 0777, true);

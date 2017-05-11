@@ -69,4 +69,32 @@ class M_Vehicles extends CI_Model
 
     }
 
+    function assign_vehicle($id){
+
+        $posted_data = array(
+            'owner_id' => $id,
+            'vehicle_name' => $this->input->post('vehicle', TRUE),
+            'plate_number' => $this->input->post('vehicle_plate', TRUE),
+            'model' => $this->input->post('vehicle_model', TRUE),
+            'plate_number' => $this->input->post('plate_number', TRUE),
+            'vehicle_type' => $this->input->post('vehicle_type', TRUE),
+            'status' => 1
+        );
+        $this->db->insert('tbl_vehicles', $posted_data);
+
+        return $this->db->insert_id();
+    }
+    function update_vehicle_pix($id, $vehicle_file_path, $file_thumb_path){
+
+        $posted_data = array(
+            'vehicle_id' => $id,
+            'picture' => $vehicle_file_path,
+            'thumbnail' => $file_thumb_path,
+            'status' => 1
+        );
+        $this->db->insert('tbl_vehicle_pictures', $posted_data);
+
+        return $this->db->insert_id();
+    }
+
 }

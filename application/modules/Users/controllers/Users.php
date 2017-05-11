@@ -11,11 +11,9 @@ class Users extends MY_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model("M_Users");
-        $this->load->model("M_Login");
-        $this->load->model("M_Roles");
-        $this->load->model("M_Institutions");
+        $this->load->model(["M_Users", "M_Login", "M_Roles", "M_Institutions", "M_Vehicles"]);
     }
+
     function display_users(){
         $data = $this->get_data_from_post();
         //$this->load->module("Titles");
@@ -43,7 +41,9 @@ class Users extends MY_Controller
     }
 
     function register($data = NULL){
-
+      $this->load->module(['Vehicles', 'Titles']);
+        $data['vehicle_types'] = $this->vehicles->create_vehicle_type_select();
+        $data['titles'] = $this->titles->create_titles_select();
         $this->load->view('signup_v', $data);
 
     }
@@ -86,6 +86,7 @@ class Users extends MY_Controller
         }
 
     }
+
     function get_data_from_post(){
         $data['id'] = $this->input->post('id', TRUE);
         $data['title'] = $this->input->post('title', TRUE);
@@ -95,6 +96,7 @@ class Users extends MY_Controller
         $data['role'] = $this->input->post('role', TRUE);
         return $data;
     }
+
     function create_roles_select(){
         $this->load->model('M_Roles');
 
@@ -107,6 +109,7 @@ class Users extends MY_Controller
         }
         return $options;
     }
+
     function create_role_select($selected_role)
     {
         $this->load->model('M_Roles');
@@ -129,9 +132,8 @@ class Users extends MY_Controller
         }
     }
 
-
-
     function post_user(){
+
       $this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[tbl_login.username]|min_length[4]|max_length[15]');
       $this->form_validation->set_rules('name', 'Full Name', 'trim|required|min_length[3]|max_length[255]');
       $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_login.email]');
@@ -147,6 +149,7 @@ class Users extends MY_Controller
 
       }
       else{
+        $this->load->library(['upload', 'image_lib']);
       //gets id and saves users registration information
       $id = $this->M_Login->add_user_login();
       $this->M_Users->add_user($id);
@@ -156,7 +159,7 @@ class Users extends MY_Controller
       }
     }
 
-      function signup($add_update){
+    function signup(){
         // load form validation library
         $this->load->library('form_validation');
         //$this->load->model('M_Institutions');
@@ -168,44 +171,21 @@ class Users extends MY_Controller
         $this->form_validation->set_rules('surname', 'Surname', 'trim|required|min_length[3]|max_length[25]');
         $this->form_validation->set_rules('phone', 'Phone Number', 'trim|required');
         $this->form_validation->set_rules('vehicle', 'Vehicle Name', 'trim|required');
-        $this->form_validation->set_rules('vehicle_models', 'Vehicle Models', 'trim|required');
-        $this->form_validation->set_rules('vehicle_plate', 'Vehicle Plate number', 'trim|required|is_unique[tbl_vehicles.plate_number]');
-        $this->form_validation->set_rules('user_pic', 'Passport Picture', 'trim|required|is_unique[tbl_vehicles.plate_number]');
-        $this->form_validation->set_rules('vehicle_pic', 'Vehicle Picture', 'trim|required|is_unique[tbl_vehicles.plate_number]');
+        $this->form_validation->set_rules('vehicle_model', 'Vehicle Models', 'trim|required');
+        $this->form_validation->set_rules('plate_number', 'Vehicle Plate number', 'trim|required|is_unique[tbl_vehicles.plate_number]');
+        $this->form_validation->set_rules('vehicle_type', 'Vehicle Type', 'trim|required');
         $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
-        $this->form_validation->set_rules('confirm', 'Confirm password', 'trim|required|');
+        $this->form_validation->set_rules('confirm', 'Confirm password', 'trim|required|matches[password]');
 
         // if validation fails
         if ($this->form_validation->run() == FALSE){
-            $this->display_users();
+            $this->register();
         }
         //if validation succeeds
         else{
-
+                $this->load->library(['upload', 'image_lib']);
                 $id = $this->M_Login->add_user_login();
-                $files = $_FILES;
-                if (!file_exists("./asset/images/Vehicle_Pictures{$id}/")) {
-                    mkdir("./asset/images/Vehicle_Pictures{$id}/", 0777, true);
-                }
-
-                $vehicle_config = $this->set_vehicle_upload_option($id);
-                $this->upload->initialize($vehicle_config);
-
-                if($this->upload->do_upload('vehicle_pic')){
-                   $this->M_Vehicles->assign_vehicle($id);
-                    $file_path = $vehicle_config['upload_path'].$vehicle_config['file_name'].$this->upload->data('file_ext');
-                    $file_thumb_path = $config['upload_path'].$vehicle_config['file_name'].'_thumb'.$this->upload->data('file_ext');
-
-                    $config_thumb = $this->set_vehicle_thumb_option($file_path);
-
-                    $this->load->library('image_lib');
-                    $this->image_lib->initialize($config_thumb);
-
-                    $this->image_lib->resize();
-                    $this->M_Vehicles->update_vehicle_pix($id, $file_path, $file_thumb_path);
-                }
-
 
                 $files = $_FILES;
                 if (!file_exists("./asset/images/Users_Pictures/")) {
@@ -217,13 +197,52 @@ class Users extends MY_Controller
 
                 if($this->upload->do_upload('user_pic')){
                   $file_path = $user_config['upload_path'].$id.$this->upload->data('file_ext');
-                    $this->M_Users->add_user($id);
+                    $this->M_Users->add_vehicle_owner($id, $file_path);
 
                 }
-                $this->M_Roles->assign_role_user($id);
+                else {
+                  $error = array('error' => $this->upload->display_errors());
+                  print_r($error);
+                  die;
+                }
 
 
+                $files = $_FILES;
+                if (!file_exists("./asset/images/Vehicle_Pictures{$id}/")) {
+                    mkdir("./asset/images/Vehicle_Pictures{$id}/", 0777, true);
+                }
+
+                $vehicle_config = $this->set_vehicle_upload_option($id);
+                $this->upload->initialize($vehicle_config);
+
+                if($this->upload->do_upload('vehicle_pic')){
+
+                   $vehicle_id = $this->M_Vehicles->assign_vehicle($id);
+                    $file_path = $vehicle_config['upload_path'].$vehicle_config['file_name'].$this->upload->data('file_ext');
+                    $file_thumb_path = $vehicle_config['upload_path'].$vehicle_config['file_name'].'_thumb'.$this->upload->data('file_ext');
+
+                    $config_thumb = $this->set_vehicle_thumb_option($file_path);
+
+                    $this->load->library('image_lib');
+                    $this->image_lib->initialize($config_thumb);
+
+                    $this->image_lib->resize();
+                    $this->M_Vehicles->update_vehicle_pix($vehicle_id, $file_path, $file_thumb_path);
+                }
+                else {
+                  $error = array('error' => $this->upload->display_errors());
+                  print_r($error);
+                  die;
+                }
+
+
+
+                $this->M_Roles->assign_role_vehicle_owner($id);
+                $this->session->set_flashdata('reg','Signup Successful!');
+                $this->register();
             }
+
+
         //redirects to the users page to view the added user
     }
 
@@ -243,7 +262,7 @@ class Users extends MY_Controller
         //upload image options
         $config = array();
         $config['upload_path'] = "./asset/images/Vehicle_Pictures{$id}/";
-        $config['file_name'] = date_timestamp_get();
+        $config['file_name'] = date('mdY_His');
         $config['allowed_types'] = 'gif|jpg|png';
         $config['max_size'] = '0';
 

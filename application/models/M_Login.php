@@ -24,7 +24,7 @@ class M_Login extends CI_Model
 
     function add_user_login(){
         $posted_data = array(
-          'username' => ucwords($this->input->post('username', TRUE)),
+          'username' => $this->input->post('username', TRUE),
           'email' => $this->input->post('email', TRUE),
           'password' => sha1($this->input->post('conf_pword', TRUE)),
         );

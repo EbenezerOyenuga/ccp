@@ -47,52 +47,6 @@ class Vehicles extends MY_Controller
         }
     }
 
-    /*function create_state_select()
-    {
-
-        $states = $this->M_States->get_active_states();
-        echo "<label for='state'>States</label>";
-        echo "<div class='form-group'>";
-        echo "<div class='form-line'>";
-        echo "<select class='form-control show-tick' id='insti_state_dd' name='insti_state_dd' onchange='load_textbox()'>";
-        echo "<option value=''>-- Please Select States --</option>";
-        if (count($states)) {
-            foreach ($states as $key => $value) {
-
-                echo "<option value = '{$value->STATE_ID}'>{$value->STATE}</option>";
-
-            }
-
-        }
-        echo "</select>";
-        echo "</div>";
-        echo "</div>";
-
-    }
-
-    function create_state_select_table()
-    {
-
-        $states = $this->M_States->get_active_states();
-        echo "<label for='state'>States</label>";
-        echo "<div class='form-group'>";
-        echo "<div class='form-line'>";
-        echo "<select class='form-control show-tick' id='insti_state_dd' name='insti_state_dd' onchange='load_state_table()'>";
-        echo "<option value=''>-- Please Select States --</option>";
-        if (count($states)) {
-            foreach ($states as $key => $value) {
-
-                echo "<option value = '{$value->STATE_ID}'>{$value->STATE}</option>";
-
-            }
-
-        }
-        echo "</select>";
-        echo "</div>";
-        echo "</div>";
-
-    }
-*/
     function display_vehicle_types()
     {
         $data = $this->get_data_from_post();

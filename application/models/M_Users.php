@@ -38,6 +38,19 @@ class M_Users extends CI_Model
 
         return $this->db->insert_id();
     }
+    function add_vehicle_owner($id, $user_pic){
+        $posted_data = array(
+          'login_id' => $id,
+          'phonenumber' => $this->input->post('phone', TRUE),
+          'firstname' => ucwords($this->input->post('firstname', TRUE)),
+          'surname' => ucwords($this->input->post('surname', TRUE)),
+          'title_id' => $this->input->post('title', TRUE),
+          'picture' => $user_pic,
+        );
+        $this->db->insert('tbl_users', $posted_data);
+
+        return $this->db->insert_id();
+    }
 
     function update_user(){
         $this->db->set('EMAIL', $this->input->post('email', TRUE));

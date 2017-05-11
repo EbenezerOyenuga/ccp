@@ -32,15 +32,19 @@
     </div>
     <div class="card">
         <div class="body">
-            <form id="sign_up" method="POST" action="<?php echo base_url(); ?>Users/signup" >
+            <form id="sign_up" method="POST" action="<?php echo base_url(); ?>Users/signup" enctype="multipart/form-data">
                 <div class="msg">Register as vehicle owner</div>
-
+                <?php echo validation_errors('<p style="color: red" />'); ?>
+                <?php if (isset($_SESSION['reg']))echo $_SESSION['reg'];?>
                 <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="surname" placeholder="Surname" required autofocus>
+                      <select class="form-control show-tick" id="title" name="title">
+                          <option value="">-- Please Select Title--</option>
+                          <?php echo $titles; ?>
+                      </select>
                     </div>
                 </div>
                 <div class="input-group">
@@ -48,7 +52,15 @@
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="firstname" placeholder="Firstname" required autofocus>
+                        <input type="text" class="form-control" name="surname" placeholder="Surname" value="<?php echo set_value('surname');?>" required autofocus>
+                    </div>
+                </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                    <div class="form-line">
+                        <input type="text" class="form-control" name="firstname" placeholder="Firstname" value="<?php echo set_value('firstname');?>" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">
@@ -56,7 +68,7 @@
                             <i class="material-icons">email</i>
                         </span>
                     <div class="form-line">
-                        <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                        <input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo set_value('email');?>" required>
                     </div>
                 </div>
                 <div class="input-group">
@@ -64,14 +76,14 @@
                             <i class="material-icons">contact_phone</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="phone" placeholder="Tel. Number" required>
+                        <input type="text" class="form-control" name="phone" placeholder="Tel. Number" value="<?php echo set_value('phone');?>" required>
                     </div>
                 </div>
                 <div class="input-group">
                   <label>Users Picture</label>
 
                     <div class="form-line">
-                        <input type="file" name="user_pic" placeholder="Student Picture"/>
+                        <input type="file" name="user_pic" />
                     </div>
                 </div>
                 <div class="input-group">
@@ -79,7 +91,7 @@
                             <i class="material-icons">directions_car</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="vehicle" placeholder="Vehicle Name" required autofocus>
+                        <input type="text" class="form-control" name="vehicle" placeholder="Vehicle Name" value="<?php echo set_value('vehicle');?>" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">
@@ -87,7 +99,7 @@
                             <i class="material-icons">drive_eta</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="vehicle_models" placeholder="Vehicle Model" required autofocus>
+                        <input type="text" class="form-control" name="vehicle_model" placeholder="Vehicle Model" value="<?php echo set_value('vehicle_model');?>" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">
@@ -95,13 +107,24 @@
                             <i class="material-icons">confirmation_number</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="plate_number" placeholder="Vehicle Plate Number" required autofocus>
+                        <input type="text" class="form-control" name="plate_number" placeholder="Vehicle Plate Number" value="<?php echo set_value('plate_number');?>" required autofocus>
+                    </div>
+                </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">drive_eta</i>
+                        </span>
+                    <div class="form-line">
+                      <select class="form-control show-tick" id="vehicle_type" name="vehicle_type">
+                          <option value="">-- Please Select Vehicle Type--</option>
+                          <?php echo $vehicle_types; ?>
+                      </select>
                     </div>
                 </div>
                 <div class="input-group">
                     <label>Vehicle Picture</label>
                     <div class="form-line">
-                        <input type="file" name="vehicle_pic" placeholder="Vehicle Picture"/>
+                        <input type="file" name="vehicle_pic" />
                     </div>
                 </div>
                 <div class="input-group">
@@ -109,7 +132,7 @@
                             <i class="material-icons">person</i>
                         </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                        <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo set_value('username');?>" required autofocus>
                     </div>
                 </div>
                 <div class="input-group">
@@ -136,7 +159,7 @@
                 <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">SIGN UP</button>
 
                 <div class="m-t-25 m-b--5 align-center">
-                    <a href="sign-in.html">You already have a membership?</a>
+                    <a href="<?php echo base_url(); ?>Login">You already have a membership?</a>
                 </div>
             </form>
         </div>

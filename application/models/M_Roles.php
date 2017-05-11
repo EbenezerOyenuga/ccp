@@ -34,7 +34,14 @@ class M_Roles extends CI_Model
         );
         return $this->db->insert('tbl_assigned_roles', $posted_data);
     }
+    function assign_role_vehicle_owner($id){
+        $posted_data = array(
+            'LOGIN_ID' => $id,
+            'ASSIGNED_ROLE' => '2'
 
+        );
+        return $this->db->insert('tbl_assigned_roles', $posted_data);
+    }
     function assign_subrole_user($id){
         $this->db->set('ASSIGNED_SUBROLE', $this->input->post('residence', TRUE));
         $this->db->where('LOGIN_ID', $id);

@@ -51,7 +51,7 @@ class Users extends MY_Controller
     function register_commuter(){
       $this->load->module('Institutions');
       $data['institutions'] = $this->institutions->create_institutions_select_form();
-      $this->load->view('commuterSignup_v', $data);
+      $this->load->view('commuterSignupp_v', $data);
 
     }
 
@@ -132,6 +132,7 @@ class Users extends MY_Controller
 
 
     function post_user(){
+      $this->load->library('form_validation');
       $this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[tbl_login.username]|min_length[4]|max_length[15]');
       $this->form_validation->set_rules('name', 'Full Name', 'trim|required|min_length[3]|max_length[255]');
       $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_login.email]');

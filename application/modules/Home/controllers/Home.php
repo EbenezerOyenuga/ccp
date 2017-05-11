@@ -15,6 +15,6 @@ class Home extends MY_Controller{
         //$this->load->model('M_Semesters_Scores');
         //$data['num_resub_req'] = count($this->M_Semesters_Scores->get_resubmission_requests());
 
-        $this->load->view('home_v', $data);
+        $this->load->view('homee_v', $data);
     }
 }

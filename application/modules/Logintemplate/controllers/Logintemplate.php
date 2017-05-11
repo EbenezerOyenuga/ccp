@@ -7,6 +7,6 @@ class Logintemplate extends MY_Controller{
     }
     function call_login_template($data){
         //call login template
-        $this->load->view('login_template_v', $data);
+        $this->load->view('login_templatee_v', $data);
     }
 }

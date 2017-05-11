@@ -70,9 +70,9 @@ class Login extends MY_Controller{
 
                             redirect(base_url() . 'Worship/show_semesters');
                         } // Redirect to administrator page and populate seession
-                        elseif ($value->ASSIGNED_ROLE == 4) {
+                        elseif ($value->assigned_role == 4) {
 
-                            redirect(base_url() . 'Admin/users');
+                            redirect(base_url() . 'home');
                         }
                     }
                 }

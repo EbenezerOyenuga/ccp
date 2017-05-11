@@ -12,7 +12,7 @@ class Points extends MY_Controller{
     {
         if (isset($_GET['type'])) {
             if ($_GET['type'] == 1)
-                $this->institutions->create_institutions_select();
+                $this->institutions->create_institutions_select_location();
 
             else
                 $this->states->create_state_select();
@@ -75,6 +75,33 @@ class Points extends MY_Controller{
                 $this->states->create_state_select_table();
         }
     }
+
+    function load_institution_points_select()
+    {
+        if (isset($_GET['inst'])) {
+            $inst = $this->M_Points->get_insti_point($_GET['inst']);
+            echo "<label for='state'>Points</label>";
+            echo "<div class='form-group'>";
+            echo "<div class='form-line'>";
+            echo "<select class='form-control show-tick' id='pointdd' name='pointdd'>";
+            echo "<option value=''>-- Please Select Point Location --</option>";
+            if (count($inst)) {
+                foreach ($inst as $key => $value) {
+
+                    echo "<option value = '{$value->LOCATION_ID}'>{$value->LOCATION}</option>";
+
+                }
+
+
+            }
+            echo "</select>";
+            echo "</div>";
+            echo "</div>";
+        }
+
+    }
+
+
     function load_text_box()
     {
         echo "<label for='point'>Point</label>";

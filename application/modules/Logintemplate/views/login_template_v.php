@@ -34,8 +34,8 @@
     <div class="card">
         <div class="body">
             <form id="sign_in" method="POST" action="<?php echo base_url(); ?>Login/sign_in" >
-              <h style="color:green"><?php echo $this->session->flashdata('reg');?></h>
                 <div class="msg">Sign in to start your session</div>
+                <h style="color:green;font-weight:bold"><?php echo $this->session->flashdata('reg');?></h>
                 <?php echo validation_errors('<p style="color: red" />'); ?>
                 <?php if (isset($_SESSION['message']))echo $_SESSION['message'];?>
                 <div class="input-group">

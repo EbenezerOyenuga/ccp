@@ -1,6 +1,6 @@
 <?php
 
-class Institutions extends MY_Controller{
+class Ticket extends MY_Controller{
     function __construct()
     {
         parent::__construct();
@@ -8,16 +8,16 @@ class Institutions extends MY_Controller{
         $this->load->model("M_Institutions");
     }
 
-    function display_institutions()
+    function display_tickets()
     {
         $data = $this->get_data_from_post();
-        $data['button_title'] = 'Add Institution';
-        $data['page_title'] = 'Institutions';
-        $data['institutions_table'] = $this->create_institutions_table();
-        $data['states'] = $this->states->create_states_select();
+        $data['button_title'] = 'Buy ticket';
+        $data['page_title'] = 'Buy a Ticket';
+      //  $data['institutions_table'] = $this->create_institutions_table();
+      //  $data['states'] = $this->states->create_states_select();
         $data['add_update'] = 1;
-        $data['content_view'] = 'Institutions/institutions_v';
-        $this->admintemplate->call_admin_template($data);
+        $data['content_view'] = 'Ticket/ticket_v';
+        $this->commutertemplate->call_commuter_template($data);
     }
 
     function get_data_from_post(){
@@ -32,7 +32,7 @@ class Institutions extends MY_Controller{
         return $data;
     }
 
-    function create_institutions_table(){
+    function create_ticket_table(){
         $institutions = $this->M_Institutions->get_all_institutions();
         $institutions_table = "";
         if (count($institutions) >= 0) {
@@ -157,30 +157,6 @@ class Institutions extends MY_Controller{
 
     }
 
-    function create_institutions_select_location()
-    {
-
-            $institutions = $this->M_Institutions->get_active_institutions();
-            echo "<label for='state'>Institutions</label>";
-            echo "<div class='form-group'>";
-            echo "<div class='form-line'>";
-            echo "<select class='form-control show-tick' id='insti_state_dd' name='insti_state_dd' onchange='load_location()'>";
-            echo "<option value=''>-- Please Select Institutions --</option>";
-            if (count($institutions)) {
-                foreach ($institutions as $key => $value) {
-
-                    echo "<option value = '{$value->INSTITUTION_ID}'>{$value->INSTITUTION}</option>";
-
-                }
-
-
-            }
-            echo "</select>";
-            echo "</div>";
-            echo "</div>";
-
-    }
-
     function create_institutions_select_form(){
         $institutions = $this->M_Institutions->get_active_institutions();
         $options = "";
@@ -255,5 +231,4 @@ class Institutions extends MY_Controller{
         }
 
     }
-
 }

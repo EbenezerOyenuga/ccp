@@ -19,6 +19,18 @@ class Points extends MY_Controller{
         }
     }
 
+    function load_point_type_dest()
+    {
+        if (isset($_GET['type'])) {
+            if ($_GET['type'] == 1)
+                $this->states->create_state_select_dest();
+
+            else
+                $this->institutions->create_institutions_select_location_dest();
+        }
+    }
+
+
     function create_state_point_selected($state_id, $state_point_id)
     {
         $state_points = $this->M_Points->get_active_state_points($state_id);
@@ -65,6 +77,31 @@ class Points extends MY_Controller{
 
     }
 
+    function load_state_points_select_dest()
+    {
+        if (isset($_GET['state'])) {
+            $states = $this->M_Points->get_active_state_points($_GET['state']);
+            echo "<label for='state'>Destination Point</label>";
+            echo "<div class='form-group'>";
+            echo "<div class='form-line'>";
+            echo "<select class='form-control show-tick' id='dest_pointid' name='dest_point'>";
+            echo "<option value=''>-- Please Select Point --</option>";
+            if (count($states)) {
+                foreach ($states as $key => $value) {
+
+                    echo "<option value = '{$value->LOCATION_ID}'>{$value->LOCATION}</option>";
+
+                }
+
+
+            }
+            echo "</select>";
+            echo "</div>";
+            echo "</div>";
+        }
+
+    }
+
     function load_point_type_table()
     {
         if (isset($_GET['type'])) {
@@ -84,6 +121,31 @@ class Points extends MY_Controller{
             echo "<div class='form-group'>";
             echo "<div class='form-line'>";
             echo "<select class='form-control show-tick' id='pointdd' name='pointdd'>";
+            echo "<option value=''>-- Please Select Point Location --</option>";
+            if (count($inst)) {
+                foreach ($inst as $key => $value) {
+
+                    echo "<option value = '{$value->LOCATION_ID}'>{$value->LOCATION}</option>";
+
+                }
+
+
+            }
+            echo "</select>";
+            echo "</div>";
+            echo "</div>";
+        }
+
+    }
+
+    function load_institution_points_select_dest()
+    {
+        if (isset($_GET['inst'])) {
+            $inst = $this->M_Points->get_insti_point($_GET['inst']);
+            echo "<label for='state'>Destination Point</label>";
+            echo "<div class='form-group'>";
+            echo "<div class='form-line'>";
+            echo "<select class='form-control show-tick' id='dest_pointid' name='dest_point'>";
             echo "<option value=''>-- Please Select Point Location --</option>";
             if (count($inst)) {
                 foreach ($inst as $key => $value) {

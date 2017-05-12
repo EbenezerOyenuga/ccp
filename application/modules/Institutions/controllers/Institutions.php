@@ -181,6 +181,30 @@ class Institutions extends MY_Controller{
 
     }
 
+    function create_institutions_select_location_dest()
+    {
+
+            $institutions = $this->M_Institutions->get_active_institutions();
+            echo "<label for='state'>Destination Institution</label>";
+            echo "<div class='form-group'>";
+            echo "<div class='form-line'>";
+            echo "<select class='form-control show-tick' id='destination' name='dest' onchange='load_location_dest_inst()'>";
+            echo "<option value=''>-- Please Select Institutions --</option>";
+            if (count($institutions)) {
+                foreach ($institutions as $key => $value) {
+
+                    echo "<option value = '{$value->INSTITUTION_ID}'>{$value->INSTITUTION}</option>";
+
+                }
+
+
+            }
+            echo "</select>";
+            echo "</div>";
+            echo "</div>";
+
+    }
+
     function create_institutions_select_form(){
         $institutions = $this->M_Institutions->get_active_institutions();
         $options = "";

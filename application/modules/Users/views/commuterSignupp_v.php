@@ -94,17 +94,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <h style="color:red"><?php echo validation_errors('<p>'); ?></h>
             <?php if (isset($_SESSION['message']))echo $_SESSION['message'];?>
 
-            <input type="text" name="username" placeholder="Username" value="<?php echo set_value('uname');?>" required></p>
-            <input type="text" name="name" placeholder="Full Name" value="<?php echo set_value('name');?>" required></p>
-            <input type="text" name="email" placeholder="Email Address" value="<?php echo set_value('email');?>" required></p>
-            <input type="text" name="phone" placeholder="Mobile Number" maxlength="11" value="<?php echo set_value('phone');?>" required></p>
-            <select name="institution" class="frm-field required" required></p>
+
+            <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo set_value('uname');?>" required autofocus></p>
+            <input type="text" class="form-control" name="name" placeholder="Full Name" value="<?php echo set_value('name');?>" required></p>
+            <input type="text" class="form-control" name="email" placeholder="Email Address" value="<?php echo set_value('email');?>" required></p>
+            <input type="text" class="form-control" name="phone" placeholder="Mobile Number" maxlength="11" value="<?php echo set_value('phone');?>" required></p>
+            <select name="institution" class="frm-field required" required class="form-control"></p>
                 <option value="">--Select Institution--</option>
                 <?php echo $institutions; ?>
             </select>
 
-            <input type="password" required placeholder="Password" name="password" value="<?php echo set_value('password');?>">
-						<input type="password" required placeholder="Confirm Password" name="conf_pword" value="<?php echo set_value('conf_pword');?>"></p>
+            <input type="password" class="form-control" required placeholder="Password" name="password" value="<?php echo set_value('password');?>">
+						<input type="password" class="form-control" required placeholder="Confirm Password" name="conf_pword" value="<?php echo set_value('conf_pword');?>"></p>
 
 					<div class="ckeck-bg">
 						<div class="checkbox-form">
@@ -117,6 +118,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                   <button  type="submit">SIGN UP</button>
 							</div>
 							<div class="clearfix"> </div>
+							<div >
+									<a href="<?php echo base_url(); ?>Login">Already a member? Login</a>
+							</div>
 						</div>
 					</div>
         </form>

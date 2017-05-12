@@ -88,42 +88,65 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<div class="sign-in-form">
 				<div class="in-form">
-					<h3>Sign in to start your Session</h3>
-					<form id="sign_in" method="POST" action="<?php echo base_url(); ?>Login/sign_in" >
+					<h3>Register as Vehicle Owner</h3>
+					<form id="sign_up" method="POST" action="<?php echo base_url(); ?>Users/signup" enctype="multipart/form-data">
             <h style="color:green;font-weight:bold"><?php echo $this->session->flashdata('reg');?></h>
             <h style="color:red"><?php echo validation_errors('<p>'); ?></h>
             <?php if (isset($_SESSION['message']))echo $_SESSION['message'];?>
 
-            <input type="text" name="username" class="form-control" placeholder="Username" value="<?php echo set_value('uname');?>" required autofocus>
+						<label>Personal Details</label><hr/>
+						<select id="title" name="title" class="frm-field required">
+								<option value="">-- Please Select Title--</option>
+								<?php echo $titles; ?>
+						</select></p>
 
-						<input type="password" required class="form-control" placeholder="Password" name="password" value="<?php echo set_value('password');?>">
-
-            <select id="country" name="role" class="frm-field required" class="form-control">
-                <option>--SELECT ROLE--</option>
-                <?php echo $role; ?>
-            </select>
-
+						<input type="text" class="form-control" name="surname" placeholder="Surname" value="<?php echo set_value('surname');?>" required autofocus></p>
+						<input type="text" class="form-control" name="firstname" placeholder="Firstname" value="<?php echo set_value('firstname');?>" required autofocus></p>
+						<input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo set_value('email');?>" required></p>
+						<input type="text" class="form-control" name="phone" placeholder="Tel. Number" maxlength="11" value="<?php echo set_value('phone');?>" required></p>
+						<div class="input-group">
+							<label>Users Picture</label>
+								<div class="form-line">
+										<input type="file" name="user_pic" required/>
+								</div>
+						</div><hr/>
+						<label>Vehicle Details</label><hr/>
+						<input type="text" class="form-control" name="vehicle" placeholder="Vehicle Name" value="<?php echo set_value('vehicle');?>" required autofocus></p>
+						<input type="text" class="form-control" name="vehicle_model" placeholder="Vehicle Model" value="<?php echo set_value('vehicle_model');?>" required autofocus></p>
+						<input type="text" class="form-control" name="plate_number" placeholder="Vehicle Plate Number" value="<?php echo set_value('plate_number');?>" required autofocus></p>
+						<select class="form-control show-tick" id="vehicle_type" name="vehicle_type">
+								<option value="">-- Please Select Vehicle Type--</option>
+								<?php echo $vehicle_types; ?>
+						</select></p>
+						<div class="input-group">
+								<label>Vehicle Picture</label>
+								<div class="form-line">
+										<input type="file" name="vehicle_pic" required/>
+								</div>
+						</div><hr/>
+						<label>Login Details</label><hr/>
+						<input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo set_value('username');?>" required autofocus></p>
+						<input type="password" class="form-control" name="password" minlength="6" placeholder="Password" required></p>
+						<input type="password" class="form-control" name="confirm" minlength="6" placeholder="Confirm Password" required></p>
 
 					<div class="ckeck-bg">
 						<div class="checkbox-form">
 							<div class="check-left">
 								<div class="check">
-									<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i>Keep me Logged in</label>
-								</div>
-								<div class="check">
-									<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i>Remember my Password</label>
+									<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i>I read and agree to the terms of usage</label>
 								</div>
 							</div>
 							<div class="check-right">
-                  <button  type="submit">SIGN IN</button>
+                  <button  type="submit">SIGN UP</button>
 							</div>
-							<div class="clearfix"> </div>
+							<div class="clearfix"></div>
+							<div >
+									<a href="<?php echo base_url(); ?>Login">Already a member? Login</a>
+							</div>
 						</div>
 					</div>
-          <a href="forgot-password.html">Forgot Password?</a><br/>
-          <a href="<?php echo base_url(); ?>Users/register">Register as Vehicle Owner!</a><br/>
-          <a href="<?php echo base_url(); ?>Users/register_commuter">Register as Commuter!</a><br/>
 
+        </form>
 				</div>
 			</div>
 

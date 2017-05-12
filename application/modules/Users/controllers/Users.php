@@ -44,7 +44,7 @@ class Users extends MY_Controller
       $this->load->module(['Vehicles', 'Titles']);
         $data['vehicle_types'] = $this->vehicles->create_vehicle_type_select();
         $data['titles'] = $this->titles->create_titles_select();
-        $this->load->view('signup_v', $data);
+        $this->load->view('signupp_v', $data);
 
     }
 
@@ -170,7 +170,7 @@ class Users extends MY_Controller
         $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_login.email]');
         $this->form_validation->set_rules('firstname', 'First Name', 'trim|required|min_length[3]|max_length[25]');
         $this->form_validation->set_rules('surname', 'Surname', 'trim|required|min_length[3]|max_length[25]');
-        $this->form_validation->set_rules('phone', 'Phone Number', 'trim|required');
+        $this->form_validation->set_rules('phone', 'Phone Number', 'trim|required|max_length[11]');
         $this->form_validation->set_rules('vehicle', 'Vehicle Name', 'trim|required');
         $this->form_validation->set_rules('vehicle_model', 'Vehicle Models', 'trim|required');
         $this->form_validation->set_rules('plate_number', 'Vehicle Plate number', 'trim|required|is_unique[tbl_vehicles.plate_number]');
@@ -264,7 +264,7 @@ class Users extends MY_Controller
         $config = array();
         $config['upload_path'] = "./asset/images/Vehicle_Pictures{$id}/";
         $config['file_name'] = date('mdY_His');
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['max_size'] = '0';
 
         return $config;
@@ -275,7 +275,7 @@ class Users extends MY_Controller
         $config = array();
         $config['upload_path'] = "./asset/images/Users_Pictures/";
         $config['file_name'] = $id;
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['max_size'] = '0';
 
         return $config;

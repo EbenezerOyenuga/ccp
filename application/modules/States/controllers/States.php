@@ -54,7 +54,30 @@ class States extends MY_Controller
         echo "<label for='state'>States</label>";
         echo "<div class='form-group'>";
         echo "<div class='form-line'>";
-        echo "<select class='form-control show-tick' id='insti_state_dd' name='insti_state_dd' onchange='load_textbox()'>";
+        echo "<select class='form-control show-tick' id='insti_state_dd' name='insti_state_dd' onchange='load_location_state()'>";
+        echo "<option value=''>-- Please Select States --</option>";
+        if (count($states)) {
+            foreach ($states as $key => $value) {
+
+                echo "<option value = '{$value->STATE_ID}'>{$value->STATE}</option>";
+
+            }
+
+        }
+        echo "</select>";
+        echo "</div>";
+        echo "</div>";
+
+    }
+
+    function create_state_select_dest()
+    {
+
+        $states = $this->M_States->get_active_states();
+        echo "<label for='state'>Destination State</label>";
+        echo "<div class='form-group'>";
+        echo "<div class='form-line'>";
+        echo "<select class='form-control show-tick' id='destination' name='dest' onchange='load_location_dest_state()'>";
         echo "<option value=''>-- Please Select States --</option>";
         if (count($states)) {
             foreach ($states as $key => $value) {

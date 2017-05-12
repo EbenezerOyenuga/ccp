@@ -8,6 +8,34 @@ class Ticket extends MY_Controller{
         $this->load->model("M_Institutions");
     }
 
+    function buy_ticket(){
+
+      $this->load->library('form_validation');
+      $this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[tbl_login.username]|min_length[4]|max_length[15]');
+      $this->form_validation->set_rules('name', 'Full Name', 'trim|required|min_length[3]|max_length[255]');
+      $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[tbl_login.email]');
+      $this->form_validation->set_rules('phone', 'Phone Number', 'trim|required|numeric|min_length[11]|is_unique[tbl_users.phonenumber]');
+      $this->form_validation->set_rules('institution','Institution','required');
+      $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]');
+      $this->form_validation->set_rules('conf_pword', 'Confirm Password', 'trim|required|matches[password]|min_length[6]');
+
+      // if validation fails
+      if ($this->form_validation->run() == FALSE){
+          $this->load->module('Admintemplate');
+          $this->register_commuter();
+
+      }
+      else{
+        $this->load->library(['upload', 'image_lib']);
+      //gets id and saves users registration information
+      $id = $this->M_Login->add_user_login();
+      $this->M_Users->add_user($id);
+      $this->M_Roles->assign_role_user_commuter($id);
+      $this->session->set_flashdata('reg','Signup Successful!');
+      redirect(base_url().'login');
+      }
+    }
+
     function display_tickets()
     {
         $data = $this->get_data_from_post();

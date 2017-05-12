@@ -71,6 +71,52 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	}
 </script>
 
+<script type="text/javascript">
+    function load_source_points() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "<?php echo base_url(); ?>Points/load_point_type?type="+document.getElementById("source_point").value, false);
+        xmlhttp.send(null);
+        document.getElementById("points").innerHTML=xmlhttp.responseText;
+    }
+
+    function load_location() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "<?php echo base_url(); ?>Points/load_institution_points_select?inst="+document.getElementById("insti_state_dd").value, false);
+        xmlhttp.send(null);
+        document.getElementById("locations").innerHTML=xmlhttp.responseText;
+    }
+
+		function load_location_state() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "<?php echo base_url(); ?>Points/load_state_points_select?state="+document.getElementById("insti_state_dd").value, false);
+        xmlhttp.send(null);
+        document.getElementById("locations").innerHTML=xmlhttp.responseText;
+    }
+
+		function load_destination(source) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "<?php echo base_url(); ?>Points/load_point_type_dest?type="+document.getElementById("source_point").value, false);
+			xmlhttp.send(null);
+			document.getElementById("dest").innerHTML=xmlhttp.responseText;
+
+    }
+
+		function load_location_dest_inst() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "<?php echo base_url(); ?>Points/load_institution_points_select_dest?inst="+document.getElementById("destination").value, false);
+        xmlhttp.send(null);
+        document.getElementById("destination_point").innerHTML=xmlhttp.responseText;
+    }
+
+		function load_location_dest_state() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "<?php echo base_url(); ?>Points/load_state_points_select_dest?state="+document.getElementById("destination").value, false);
+        xmlhttp.send(null);
+        document.getElementById("destination_point").innerHTML=xmlhttp.responseText;
+    }
+
+</script>
+
 </head>
 
 <body>
@@ -128,8 +174,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="sap_tabs">
 					<div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
 						  <ul class="resp-tabs-list">
-							  <!--<li class="resp-tab-item grid1" aria-controls="tab_item-0" role="tab"><span><i class="glyphicon glyphicon-home" aria-hidden="true"></i>Hotels</span></li>
-							  <li class="resp-tab-item grid2" aria-controls="tab_item-1" role="tab"><span><i class="glyphicon glyphicon-plane" aria-hidden="true"></i>Flights</span></li>-->
+								<li class="resp-tab-item grid3" aria-controls="tab_item-2" role="tab"><span><i class="glyphicon glyphicon-bed" aria-hidden="true"></i>Book Ticket</span></li>
+							  <li class="resp-tab-item grid1" aria-controls="tab_item-0" role="tab"><span><i class="glyphicon glyphicon-home" aria-hidden="true"></i>Hotels</span></li>
+							  <!--<li class="resp-tab-item grid2" aria-controls="tab_item-1" role="tab"><span><i class="glyphicon glyphicon-plane" aria-hidden="true"></i>Flights</span></li>
 							  <li class="resp-tab-item grid3" aria-controls="tab_item-2" role="tab"><span><i class="glyphicon glyphicon-bed" aria-hidden="true"></i>Cars</span></li>
 							  <!--<li class="resp-tab-item grid5" aria-controls="tab_item-3" role="tab"><span><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>Destinations</span></li>-->
 							  <div class="clear"></div>
@@ -146,15 +193,145 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																<ul>
 																	<li  class="span1_of_1 desti">
 																		 <div class="book_date">
-																			 <form>
-																				<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-																				<input type="text" placeholder="Departure City or Hotel" class="typeahead1 input-md form-control tt-input" required="">
-																			 </form>
+																			 <form method="POST" class="form-horizontal" action = "<?php echo base_url(); ?>Commuter/buy_ticket">
+
+																				<div class="row clearfix">
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				 		<label for="motto">Date</label>
+																				 		<div class="form-group">
+																				 				<div class="form-line">
+																				 					<input type="text" id="datepicker" name="date" class="date form-control" placeholder="Enter Date" value="<?php //echo $date; ?>">
+																				 				</div>
+																				 		</div>
+																				 </div>
+
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																						 <label for="state">Source Point</label>
+																						 <div class="form-group">
+																								 <div class="form-line">
+																										 <select class="form-control show-tick" name="source_point" id="source_point" onchange="load_source_points()" onclick="load_destination(this.value)">
+																												 <option value="">--Select Source Point--</option>
+																												 <option value="1">Institution</option>
+																												 <option value="2">Outside Institution</option>
+																										 </select>
+																								 </div>
+																						 </div>
+																				 </div>
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="points" name="points">
+
+				                                 </div>
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="locations" name="locations">
+
+				                                 </div>
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" name="destination" id="dest">
+																					 <label for="state">Destination</label>
+																					 <div class="form-group">
+																							 <div class="form-line">
+																									 <select class="form-control show-tick" name="dest" id="desti">
+																											 <option value="">--Select Destination--</option>
+																									 </select>
+																							 </div>
+																					 </div>
+				                                 </div>
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" name="destination_point" id="destination_point">
+																					 <label for="state">Destination Points</label>
+																					 <div class="form-group">
+																							 <div class="form-line">
+																									 <select class="form-control show-tick" name="dest_point">
+																											 <option value="">--Select Destination Points--</option>
+																									 </select>
+																							 </div>
+																					 </div>
+				                                 </div>
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" name="trip">
+																					 <label for="state">Trip</label>
+																					 <div class="form-group">
+																							 <div class="form-line">
+																									 <select class="form-control show-tick" name="trip">
+																											 <option value="">--Select Trip--</option>
+																											 <option value="Single">Single</option>
+																											 <option value="Return">Return</option>
+																									 </select>
+																							 </div>
+																					 </div>
+				                                 </div>
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" name="class">
+																					 <label for="state">Class</label>
+																					 <div class="form-group">
+																							 <div class="form-line">
+																									 <select class="form-control show-tick" name="class">
+																											 <option value="">--Select Class--</option>
+	 																										<?php echo $class; ?>
+																									 </select>
+																							 </div>
+																					 </div>
+				                                 </div>
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																				 		<label for="motto">Travel Time</label>
+																				 		<div class="form-group">
+																				 				<div class="form-line">
+																				 					<!--<input type="hidden" id="institution_id" name="institution_id" value="<?php echo $institution_id; ?>">-->
+																				 					<input type="text" name="time" class="date form-control" placeholder="Enter Travel Time" value="<?php //echo $date; ?>">
+																				 				</div>
+																				 		</div>
+																				 </div>
+
+																				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" name="vehicle">
+																					 <label for="state">Select Vehicles</label>
+																					 <div class="form-group">
+																							 <div class="form-line">
+																									 <select class="form-control show-tick" name="vehicle">
+																											 <option value="">--Select Vehicles--</option>
+																											 <option value="Single">Single</option>
+																											 <option value="Return">Return</option>
+																									 </select>
+																							 </div>
+																					 </div>
+				                                 </div>
+																			 </div>
+
+
+																				<!-- <li  class="span1_of_1">
+																					 <h5>Check In</h5>
+																					 <div class="book_date">
+																						<div class="book_date">
+																							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+																							<input class="date" id="datepicker" type="text" name="date" placeholder="Date" required="">
+																						</div>
+																					 </div>
+																				 </li>
+
+
+																				 <li class="span1_of_1 adult">
+																					<h5>Source Point</h5>
+																					<!----------start section_room-----------
+																					<div class="section_room">
+																						 <select id="country" name="source_poing" class="frm-field required">
+																							 option value="">-- Please Select Source Point--</option>
+																							 <option value="1">Institution</option>
+																							 <option value="2">Outside Institution</option>
+																						 </select>
+																					</div>
+																			 </li>-->
+
+
+
+																				<!--<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+																				<input type="text" placeholder="Departure City or Hotel" class="typeahead1 input-md form-control tt-input" required="">-->
 																		 </div>
 																	 </li>
 																</ul>
 															</div>
-															<div class="reservation">
+															<!--<div class="reservation">
 																<ul>
 																	 <li  class="span1_of_1">
 																		 <h5>Check In</h5>
@@ -179,7 +356,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																	 </li>
 																	 <li class="span1_of_1 adult">
 																		 <h5>Adults (18+)</h5>
-																		 <!----------start section_room----------->
+																		 <!----------start section_room-----------
 																		 <div class="section_room">
 																			  <select id="country" onchange="change_country(this.value)" class="frm-field required">
 																					<option value="null">1</option>
@@ -193,7 +370,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																	</li>
 																	<li class="span1_of_1 adult">
 																		 <h5>Children (0-17)</h5>
-																		 <!----------start section_room----------->
+																		 <!----------start section_room-----------
 																		 <div class="section_room">
 																			  <select id="country" onchange="change_country(this.value)" class="frm-field required">
 																					<option value="null">1</option>
@@ -207,7 +384,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																	</li>
 																	<li class="span1_of_1 adult">
 																		 <h5>Class</h5>
-																		 <!----------start section_room----------->
+																		 <!----------start section_room-----------
 																		 <div class="section_room">
 																			  <select id="country" onchange="change_country(this.value)" class="frm-field required">
 																					<option value="null">Economy</option>
@@ -218,15 +395,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																	 <div class="clearfix"></div>
 																</ul>
 																	<!---strat-date-piker---->
-																		<link rel="stylesheet" href="css/jquery-ui.css" />
-																		<script src="<?php echo base_url(); ?>asset/js/jquery-ui.js"></script>
-																		  <script>
-																				  $(function() {
-																					$( "#datepicker,#datepicker1" ).datepicker();
-																				  });
-																		  </script>
+
 																	<!---/End-date-piker---->
 															</div>
+															<link rel="stylesheet" href="css/jquery-ui.css" />
+															<script src="<?php echo base_url(); ?>asset/js/jquery-ui.js"></script>
+																<script>
+																		$(function() {
+																		$( "#datepicker,#datepicker1" ).datepicker();
+																		});
+																</script>
+
 															<div class="reservation">
 																<ul>
 																	 <li class="span1_of_3">
@@ -247,6 +426,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																	 <div class="clearfix"></div>
 																</ul>
 															</div>
+														</form>
 														</div>
 														<div class="clearfix"></div>
 													</div>

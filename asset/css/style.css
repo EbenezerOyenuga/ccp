@@ -24,7 +24,7 @@ body a:hover{
 	text-decoration:none;
 }
 /*-- banner --*/
-.banner{	
+.banner{
 	min-height: 900px;
     background: url(../images/banner1.jpg) no-repeat 0px 0px;
     background-size: cover;
@@ -80,7 +80,7 @@ body a:hover{
   margin-top:2.3em;
 }
 .top-nav a:focus{
-  outline: none !important;	
+  outline: none !important;
 }
 .nav > li > a:hover, .nav > li > a:focus, .nav > li > a.active {
   color: #E47719 !important;
@@ -1142,7 +1142,7 @@ p.ever{
 .footer-top-grid ul.tag2 li{
 	display:inline-block;
 	}
-.footer-top-grid ul.tag2 li a{	
+.footer-top-grid ul.tag2 li a{
 	font-size:12px;
 	color: #CCC8C8;
 	padding: 3px 7px;
@@ -1319,11 +1319,11 @@ p.ever{
 	background: url("../images/tick-mark.png") no-repeat 1px 2px;
 	top: 3px;
 	left: 1px;
-	width: 15px;																																																																																													
+	width: 15px;
 	height: 15px;
-	font: normal 12px/16px FontAwesome;																																						
+	font: normal 12px/16px FontAwesome;
 	text-align: center;
-}					
+}
 .checkbox input + i:after {
 	position: absolute;
 	opacity: 0;
@@ -1373,7 +1373,7 @@ p.ever{
 .checkbox-form input[type="submit"]:hover,.Personal input[type="submit"]:hover{
 	background:#E47719;
 	color:#FFF;
-}	
+}
 .in-form p.forget{
 	color:#fff;
 	font-size:14px;
@@ -1463,7 +1463,7 @@ p.ever{
 	bottom: 20px;
 	right: 2%;
 	overflow: hidden;
-	z-index: 999; 
+	z-index: 999;
 	width: 32px;
 	height: 32px;
 	border: none;
@@ -1705,7 +1705,7 @@ p.ever{
 	}
 	.events-grid11 span {
 		padding: 1.5em 0 0 2em;
-	}	
+	}
 	.subscribe form {
 		width: 100%;
 	}

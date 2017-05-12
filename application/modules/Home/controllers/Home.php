@@ -14,7 +14,7 @@ class Home extends MY_Controller{
         //call login template
         //$this->load->model('M_Semesters_Scores');
         //$data['num_resub_req'] = count($this->M_Semesters_Scores->get_resubmission_requests());
-        $this->load->module('ClassType');
+        $this->load->module('Classtype');
         $data['class'] = $this->classtype->create_class_select();
         $this->load->view('homee_v', $data);
     }
